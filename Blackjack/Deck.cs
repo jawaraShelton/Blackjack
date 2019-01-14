@@ -14,15 +14,26 @@ namespace Blackjack
 
         public Deck()
         {
+            Build();
+            Shuffle();
+        }
+
+        public void Build()
+        {
             //  >>>>>[  Build the Deck
             //          -----
             foreach (char CardSuit in Suits)
-                foreach(String Value in Values)
+                foreach (String Value in Values)
+                {
                     Cards.Add(Value + CardSuit.ToString());
+                }
+        }
 
+        public void Shuffle()
+        {
             //  >>>>>[  Shuffle
             //          -----
-            for (int index=51; index>=0; index--)
+            for (int index = 51; index >= 0; index--)
             {
                 int SwapCard = rng.Next(index + 1);
                 String SwapValue = Cards[SwapCard];
@@ -36,6 +47,11 @@ namespace Blackjack
             String returnValue = Cards.FirstOrDefault();
             Cards.Remove(returnValue);
             return (returnValue);
+        }
+
+        public Boolean Empty()
+        {
+            return (Cards.Count == 0);
         }
     }
 }
