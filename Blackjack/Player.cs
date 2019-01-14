@@ -19,6 +19,33 @@ namespace Blackjack
             }
         }
 
+        private int cash;
+        public int Cash
+        {
+            get
+            {
+                return cash;
+            }
+            set
+            {
+                cash = value;
+            }
+        }
+
+        private int bet = 0;
+        public int Bet
+        {
+            get
+            {
+                return bet;
+            }
+            set
+            {
+                if (value <= cash)
+                    bet = value;
+            }
+        }
+
         private Boolean bust = false;
         public Boolean Bust
         {
@@ -64,6 +91,12 @@ namespace Blackjack
             playerName = Name;
         }
 
+        public Player(String Name, int fundsAvailable)
+        {
+            playerName = Name;
+            cash = fundsAvailable;
+        }
+
         public void Win()
         {
         }
@@ -73,6 +106,14 @@ namespace Blackjack
             hand.Add(Card);
             if (ValueOfHand() > 21)
                 this.bust = true;
+        }
+
+        public Boolean DoubleDown()
+        {
+            if (bet * 2 <= cash)
+                bet = bet * 2;
+
+            return bet * 2 <= cash;
         }
 
         public int ValueOfHand()
@@ -97,6 +138,7 @@ namespace Blackjack
 
         public void Surrender()
         {
+            bet = bet / 2;
             surrendered = true;
         }
 

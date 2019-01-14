@@ -19,7 +19,7 @@ namespace Blackjack
 
             int PlayerNumber = 1;
             for (int Index = 0; Index < Properties.Settings.Default.NumberOfPlayers; Index++)
-                players.Add(new Player("Player " + PlayerNumber.ToString()));
+                players.Add(new Player("Player " + PlayerNumber.ToString(), 500));
 
             Boolean PlayerQuit = false;
 
@@ -52,13 +52,21 @@ namespace Blackjack
                 while (!HandCompleted)
                 {
                     Console.WriteLine("Dealer's Hand  : {0}", dealer.ShowHand());
-                    foreach (Player playerInGame in players)
-                        Console.WriteLine("{0}'s Hand: {1}", playerInGame.PlayerName, playerInGame.ShowHand());
-                    Console.WriteLine();
 
                     foreach (Player playerInGame in players)
                     {
                         Boolean done = false;
+
+                        //  >>>>>[  Display the player's hand and available cash. 
+                        //          Find out how much they're betting.
+                        //          -----
+                        Console.WriteLine("{0}'s Hand: {1}", playerInGame.PlayerName, playerInGame.ShowHand());
+                        Console.WriteLine("Funds Available: {0}", playerInGame.Cash);
+                        Console.Write("Bet: ");
+
+                        playerInGame.Bet = Convert.ToInt32(Console.ReadLine());
+
+
                         while (!playerInGame.Standing && !playerInGame.Bust && !done)
                         {
                             Console.Write("Ready, {0}: ", playerInGame.PlayerName);
@@ -93,6 +101,26 @@ namespace Blackjack
                                     //          outside the betting box, and point with one finger.
                                     //          -----
                                     playerInGame.NoSurrender();
+
+                                    if(playerInGame.DoubleDown())
+                                    {
+                                        Console.WriteLine("Player's bet is now ${0}", playerInGame.Bet);
+                                        playerInGame.AddToHand(dealer.Deal());
+                                        Console.WriteLine("{0}'s Hand: {1}", playerInGame.PlayerName, playerInGame.ShowHand());
+                                        if (playerInGame.Bust)
+                                        {
+                                            Console.WriteLine("And the Player goes bust...");
+                                            done = true;
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("Player stands.");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("You do not have enough money for that.");
+                                    }
                                     break;
                                 case "split":
                                     //  >>>>>[  Signal: Place additional chips next to the original bet 
@@ -114,6 +142,7 @@ namespace Blackjack
                                     {
                                         playerInGame.Surrender();
                                         Console.WriteLine("{0} surrenders the hand.", playerInGame.PlayerName);
+                                        Console.WriteLine("Player's bet is now ${0}", playerInGame.Bet);
                                         done = true;
                                     }
                                     else
@@ -131,6 +160,7 @@ namespace Blackjack
 
                     //  >>>>>[  Dealer plays its hand here.
                     //          -----
+                    Console.WriteLine("Dealer's hand is: {0}", dealer.PlayHand());
 
                     //  >>>>>[  Complete hand to end the loop.
                     //          -----
@@ -138,7 +168,7 @@ namespace Blackjack
                 }
 
                 Console.Write("Quit Playing? (Y/N): ");
-                switch (Console.Read().ToString().ToUpper())
+                switch (Console.ReadLine().ToString().ToUpper())
                 {
                     case "Y":
                         PlayerQuit = true;
