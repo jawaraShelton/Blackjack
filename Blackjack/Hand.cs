@@ -20,7 +20,7 @@ namespace Blackjack
             {
                 String CardValue = Card.Substring(0, 1);
 
-                if ("1JKQ".Contains(CardValue))
+                if ("1JKQ!".Contains(CardValue))
                     returnValue += 10;
                 else if (CardValue.Equals("A"))
                 {
@@ -50,5 +50,11 @@ namespace Blackjack
         {
             hand.Clear();
         }
+
+        public override string ToString()
+        {
+            return (Show());
+        }
+        
     }
 }

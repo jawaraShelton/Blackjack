@@ -6,11 +6,8 @@ namespace Blackjack
 {
     class Deck
     {
-        private List<String> Values = new List<String> { "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K" };
-        private List<char> Suits = new List<char> { 'H', 'C', 'S', 'D' };
         private Random rng = new Random();
-
-        public IList<String> Cards = new List<String>();
+        public IList<PlayingCard> Cards = new List<PlayingCard>();
 
         public Deck()
         {
@@ -20,13 +17,12 @@ namespace Blackjack
 
         public void Build()
         {
-            //  >>>>>[  Build the Deck
+            //  >>>>>[  Build the Deck. Eliminating Jokers for now.
             //          -----
-            foreach (char CardSuit in Suits)
-                foreach (String Value in Values)
-                {
-                    Cards.Add(Value + CardSuit.ToString());
-                }
+            foreach (CardSuit Suit in Enum.GetValues(typeof(CardSuit)).Cast<CardSuit>())
+                foreach (CardRank Rank in Enum.GetValues(typeof(CardRank)).Cast<CardRank>())
+                    if (Rank != CardRank.Joker)
+                        Cards.Add(new PlayingCard(Suit, Rank));
         }
 
         public void Shuffle()
@@ -36,7 +32,7 @@ namespace Blackjack
             for (int index = 51; index >= 0; index--)
             {
                 int SwapCard = rng.Next(index + 1);
-                String SwapValue = Cards[SwapCard];
+                PlayingCard SwapValue = Cards[SwapCard];
                 Cards[SwapCard] = Cards[index];
                 Cards[index] = SwapValue;
             }
@@ -44,8 +40,8 @@ namespace Blackjack
 
         public String Draw()
         {
-            String returnValue = Cards.FirstOrDefault();
-            Cards.Remove(returnValue);
+            String returnValue = Cards.FirstOrDefault().ToString();
+            Cards.Remove(Cards.FirstOrDefault());
             return (returnValue);
         }
 

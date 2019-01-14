@@ -55,7 +55,6 @@ namespace Blackjack
             catch(Exception e)
             {
                 Console.WriteLine(e.Message.ToString());
-                Console.ReadKey();
                 Environment.Exit(-1);
             }
         }
@@ -76,7 +75,7 @@ namespace Blackjack
 
             if (obj != null)
             {
-                if (Suit == ((PlayingCard) obj).Suit && Rank == ((PlayingCard) obj).Rank)
+                if(this.GetHashCode() == ((PlayingCard) obj).GetHashCode())
                     retval = true;
             }
             else
@@ -87,10 +86,55 @@ namespace Blackjack
             return retval;
         }
 
-        private CardSuit GetSuit()
+        public override int GetHashCode()
         {
-            return Suit;
+            return ((int)Suit) * 32 + ((int)Rank);
         }
 
+        public override string ToString()
+        {
+            String retval = "";
+
+            switch(Rank)
+            {
+                case CardRank.Ace:
+                    retval += "A";
+                    break;
+                case CardRank.Jack:
+                    retval += "J";
+                    break;
+                case CardRank.Queen:
+                    retval += "Q";
+                    break;
+                case CardRank.King:
+                    retval += "K";
+                    break;
+                case CardRank.Joker:
+                    retval += "!";
+                    break;
+                default:
+                    retval += ((int)Rank).ToString();
+                    break;
+
+            }
+
+            switch (Suit)
+            {
+                case CardSuit.Diamonds:
+                    retval += "D";
+                    break;
+                case CardSuit.Clubs:
+                    retval += "C";
+                    break;
+                case CardSuit.Hearts:
+                    retval += "H";
+                    break;
+                case CardSuit.Spades:
+                    retval += "S";
+                    break;
+            }
+
+            return retval;
+        }
     }
 }

@@ -6,7 +6,6 @@ namespace Blackjack
     class Dealer: Player
     {
         Shoe shoe;
-        public int CurrentDeck = 0;
 
         public Dealer()
         {

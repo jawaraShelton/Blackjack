@@ -8,11 +8,6 @@ namespace Blackjack
     {
         static void Main(string[] args)
         {
-            PlayingCard c1 = new PlayingCard(CardSuit.Diamonds, CardRank.Ace);
-            PlayingCard c2 = new PlayingCard(CardSuit.Spades, CardRank.Ace);
-            if (c1 == c2)
-                Console.WriteLine("The cards match.");
-
             GameLoop();
         }
 
