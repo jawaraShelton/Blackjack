@@ -123,7 +123,15 @@ namespace Blackjack
 
         public void WinWager()
         {
-            cash += bet;
+            if (HasBlackjack())
+                cash += (int)(bet * 1.5);
+            else
+                cash += bet;
+        }
+
+        public Boolean HasBlackjack()
+        {
+            return hand.IsBlackJack();
         }
 
         public void Push()

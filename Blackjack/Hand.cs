@@ -46,6 +46,23 @@ namespace Blackjack
             return (returnValue.Trim(' '));
         }
 
+        public Boolean IsBlackJack()
+        {
+            Boolean retval = false;
+            String nbcLock = "";
+
+            if (hand.Count == 2)
+            {
+                foreach (String Card in hand)
+                    nbcLock += Card.Substring(0, 1);
+
+                if ("A1|1A AJ|JA AQ|QA AK|KA".Contains(nbcLock))
+                    retval = true;
+            }
+
+            return retval;
+        }
+
         public void Clear()
         {
             hand.Clear();
