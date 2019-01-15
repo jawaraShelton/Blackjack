@@ -14,7 +14,7 @@ namespace Blackjack
         static void GameLoop()
         {
             List<Player> players = new List<Player>();
-
+            Random rng = new Random();
             Dealer dealer = new Dealer();
 
             int PlayerNumber = 1;
@@ -69,6 +69,7 @@ namespace Blackjack
 
                         while (!playerInGame.Standing && !playerInGame.Bust && !done)
                         {
+                            Console.WriteLine("Available Commands: hit | stand | double down {0}", playerInGame.CanSurrender ? " | surrender" : "");
                             Console.Write("Ready, {0}: ", playerInGame.PlayerName);
                             String userInput = Console.ReadLine().ToLower();
                             switch (userInput)
@@ -80,6 +81,8 @@ namespace Blackjack
                                     //          -----
                                     playerInGame.NoSurrender();
                                     playerInGame.AddToHand(dealer.Deal());
+
+                                    Console.WriteLine("The Dealer slides you a card.");
                                     Console.WriteLine("{0}'s Hand: {1}", playerInGame.PlayerName, playerInGame.ShowHand());
                                     if (playerInGame.Bust)
                                     {
@@ -104,6 +107,7 @@ namespace Blackjack
 
                                     if(playerInGame.DoubleDown())
                                     {
+                                        Console.WriteLine("You place the additional chips beside your original bet--outside the betting box.");
                                         Console.WriteLine("Player's bet is now ${0}", playerInGame.Bet);
                                         playerInGame.AddToHand(dealer.Deal());
                                         Console.WriteLine("{0}'s Hand: {1}", playerInGame.PlayerName, playerInGame.ShowHand());
@@ -127,7 +131,8 @@ namespace Blackjack
                                     //          outside the betting box; point with two fingers spread 
                                     //          into a V formation.
                                     //          -----
-                                    playerInGame.NoSurrender();
+                                    //  playerInGame.NoSurrender();
+                                    Console.WriteLine("Not Supported (yet). See list of available commands.");
                                     break;
                                 case "surrender":
                                     //  >>>>>[  NO SIGNAL! The request to surrender is made verbally, 
@@ -153,6 +158,7 @@ namespace Blackjack
                                 default:
                                     //  >>>>>[  Nothing to be done here. Continue looping.
                                     //          -----
+                                    Console.WriteLine("Command not valid. Retry.");
                                     break;
                             }
                         }
@@ -161,6 +167,45 @@ namespace Blackjack
                     //  >>>>>[  Dealer plays its hand here.
                     //          -----
                     Console.WriteLine("Dealer's hand is: {0}", dealer.PlayHand());
+
+                    //  >>>>>[  Score the hand, and distribute payouts.
+                    //          -----
+
+                    foreach (Player playerInGame in players)
+                    {
+                        if (!playerInGame.Bust)
+                        {
+                            if (dealer.Bust)
+                            {
+                                playerInGame.WinWager();
+                            }
+                            else
+                            {
+                                if (playerInGame.ValueOfHand() == dealer.ValueOfHand())
+                                {
+                                    Console.WriteLine("{0} is a push.", playerInGame.PlayerName);
+                                    playerInGame.Push();
+                                }
+
+                                if (playerInGame.ValueOfHand() < dealer.ValueOfHand())
+                                {
+                                    Console.WriteLine("{0} loses the wager.", playerInGame.PlayerName);
+                                    playerInGame.LoseWager();
+                                }
+
+                                if (playerInGame.ValueOfHand() > dealer.ValueOfHand())
+                                {
+                                    Console.WriteLine("{0} WINS!", playerInGame.PlayerName);
+                                    playerInGame.WinWager();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("{0} loses the wager.", playerInGame.PlayerName);
+                            playerInGame.LoseWager();
+                        }
+                    }
 
                     //  >>>>>[  Complete hand to end the loop.
                     //          -----

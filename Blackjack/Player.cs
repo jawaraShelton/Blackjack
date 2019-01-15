@@ -116,6 +116,24 @@ namespace Blackjack
             return bet * 2 <= cash;
         }
 
+        public void LoseWager()
+        {
+            cash -= bet;
+        }
+
+        public void WinWager()
+        {
+            cash += bet;
+        }
+
+        public void Push()
+        {
+            //  >>>>>[  Since the value of the bet is not subtracted from
+            //          the available cash until after the hand is lost,
+            //          there is nothing that needs to be done here.
+            //          -----
+        }
+
         public int ValueOfHand()
         {
             return hand.Value();
