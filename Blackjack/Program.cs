@@ -6,6 +6,9 @@ namespace Blackjack
 {
     class Program
     {
+        //  >>>>>[  Developed using rules listed on https://www.pagat.com/banking/blackjack.html
+        //          -----
+
         static void Main(string[] args)
         {
             GameLoop();
