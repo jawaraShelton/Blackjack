@@ -18,7 +18,7 @@ namespace Blackjack
         {
             List<Player> players = new List<Player>();
             Random rng = new Random();
-            Dealer dealer = new Dealer();
+            Dealer dealer = new BlackjackDealer();
 
             int PlayerNumber = 1;
             for (int Index = 0; Index < Properties.Settings.Default.NumberOfPlayers; Index++)
@@ -37,7 +37,7 @@ namespace Blackjack
 
                 //  >>>>>[  Shuffle the deck
                 //          -----
-                dealer.Reshuffle();
+                dealer.Shuffle();
 
                 //  >>>>>[  Initial Deal
                 //          -----

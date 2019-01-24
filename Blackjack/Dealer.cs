@@ -3,44 +3,27 @@ using System.Collections.Generic;
 
 namespace Blackjack
 {
-    class Dealer: Player
+    abstract class Dealer : Player
     {
-        Shoe shoe;
+        protected Shoe shoe;
+        protected List<Player> players;
 
         public Dealer()
         {
-            Reshuffle();
+            Shuffle();
         }
 
-        public void Reshuffle()
+        public abstract void Shuffle(int numberOfDecks = 1);
+        public abstract String Deal();
+
+        public abstract new String ShowHand();
+        public abstract String PlayHand();
+
+        public abstract void Go();
+
+        public void AddPlayer(Player player)
         {
-            //  >>>>>[  This is not a good way to approach this since the
-            //          class is ultimately intended to be more generlized 
-            //          to other casino card games, but will do for now.
-            //          - jds 2019.01.14 
-            //          -----
-            shoe = new Shoe(Properties.Settings.Default.NumberOfDecks);
-        }
-
-        public String Deal()
-        {
-            return (shoe.Draw());
-        }
-
-        public new String ShowHand()
-        {
-            String returnValue = hand.Show();
-
-            returnValue = "??" + returnValue.Substring(returnValue.IndexOf(' ')); 
-            return (returnValue);
-        }
-
-        public String PlayHand()
-        {
-            while (hand.Value() <= 17)
-                hand.Add(Deal());
-
-            return hand.Show() + "\n" + (hand.Value()>21 ? "Dealer Busts." : "");
+            players.Add(player);
         }
     }
 }
