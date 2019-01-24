@@ -10,6 +10,7 @@ namespace Blackjack
 
         public Dealer()
         {
+            players = new List<Player>();
             Shuffle();
         }
 
