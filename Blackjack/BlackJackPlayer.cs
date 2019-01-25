@@ -50,7 +50,7 @@ namespace Blackjack
         public void AddToHand(string Card)
         {
             PlayerHand.Add(Card);
-            this.Bust = (ValueOfHand() > 21);
+            this.Bust = (ValueOfHand > 21);
         }
 
         public string ShowHand()
