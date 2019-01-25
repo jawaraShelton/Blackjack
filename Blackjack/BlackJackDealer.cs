@@ -8,6 +8,21 @@ namespace Blackjack
 {
     class BlackjackDealer: CasinoDealer
     {
+        protected BlackjackPlayer me;
+        // protected new List<BlackjackPlayer> players;
+
+        public BlackjackDealer()
+        {
+            //players = new List<BlackjackPlayer>();
+            me = new BlackjackPlayer();
+            Shuffle();
+        }
+
+        //public void AddPlayer(BlackjackPlayer player)
+        //{
+        //    players.Add(player);
+        //}
+
         public override String Deal()
         {
             return (shoe.Draw());
@@ -15,7 +30,7 @@ namespace Blackjack
 
         public override String ShowHand()
         {
-            String returnValue = hand.Show();
+            String returnValue = me.PlayerHand.Show();
 
             returnValue = "??" + returnValue.Substring(returnValue.IndexOf(' '));
             return (returnValue);
@@ -23,10 +38,10 @@ namespace Blackjack
 
         public override String PlayHand()
         {
-            while (hand.Value() <= 17)
-                hand.Add(Deal());
+            while (me.PlayerHand.Value() <= 17)
+                me.PlayerHand.Add(Deal());
 
-            return hand.Show() + "\n" + (hand.Value() > 21 ? "Dealer Busts." : "");
+            return me.PlayerHand.Show() + "\n" + (me.PlayerHand.Value() > 21 ? "Dealer Busts." : "");
         }
 
         public override void Go()
@@ -43,12 +58,12 @@ namespace Blackjack
             {
                 //  >>>>>[  Clear everyone's hand
                 //          -----
-                foreach (Player playerInGame in players)
+                foreach (BlackjackPlayer playerInGame in players)
                     playerInGame.NewHand();
 
                 //  >>>>>[  Clear the dealer's hand
                 //          -----
-                NewHand();
+                me.NewHand();
 
                 //  >>>>>[  Shuffle the deck
                 //          -----
@@ -58,10 +73,10 @@ namespace Blackjack
                 //          -----
                 for (int SubIndex = 0; SubIndex < 2; SubIndex++)
                 {
-                    foreach (Player playerInGame in players)
+                    foreach (BlackjackPlayer playerInGame in players)
                         playerInGame.AddToHand(Deal());
 
-                    AddToHand(Deal());
+                    me.AddToHand(Deal());
                 }
 
                 //  >>>>>[  Gameplay
@@ -71,7 +86,7 @@ namespace Blackjack
                 {
                     Console.WriteLine("Dealer's Hand  : {0}", ShowHand());
 
-                    foreach (Player playerInGame in players)
+                    foreach (BlackjackPlayer playerInGame in players)
                     {
                         Boolean done = false;
 
@@ -164,7 +179,7 @@ namespace Blackjack
                                     if (playerInGame.CanSurrender)
                                     {
                                         playerInGame.Surrender();
-                                        Console.WriteLine("{0} surrenders the hand.", playerInGame.PlayerName);
+                                        Console.WriteLine("{0} surrenders the hand .", playerInGame.PlayerName);
                                         Console.WriteLine("Player's bet is now ${0}", playerInGame.Bet);
                                         done = true;
                                     }
@@ -189,29 +204,29 @@ namespace Blackjack
                     //  >>>>>[  Score the hand, and distribute payouts.
                     //          -----
 
-                    foreach (Player playerInGame in players)
+                    foreach (BlackjackPlayer playerInGame in players)
                     {
                         if (!playerInGame.Bust)
                         {
-                            if (Bust)
+                            if (me.Bust)
                             {
                                 playerInGame.WinWager();
                             }
                             else
                             {
-                                if (playerInGame.ValueOfHand() == ValueOfHand())
+                                if (playerInGame.ValueOfHand() == me.ValueOfHand())
                                 {
                                     Console.WriteLine("{0} is a push.", playerInGame.PlayerName);
                                     playerInGame.Push();
                                 }
 
-                                if (playerInGame.ValueOfHand() < ValueOfHand())
+                                if (playerInGame.ValueOfHand() < me.ValueOfHand())
                                 {
                                     Console.WriteLine("{0} loses the wager.", playerInGame.PlayerName);
                                     playerInGame.LoseWager();
                                 }
 
-                                if (playerInGame.ValueOfHand() > ValueOfHand())
+                                if (playerInGame.ValueOfHand() > me.ValueOfHand())
                                 {
                                     Console.WriteLine("{0} WINS!", playerInGame.PlayerName);
                                     playerInGame.WinWager();

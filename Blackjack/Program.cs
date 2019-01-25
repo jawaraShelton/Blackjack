@@ -10,7 +10,7 @@ namespace Blackjack
         {
             Dealer dealer = new BlackjackDealer();
 
-            dealer.AddPlayer(new Player("Player 1", 500));
+            dealer.AddPlayer(new BlackjackPlayer("Player 1", 500));
             dealer.Go();
         }
     }

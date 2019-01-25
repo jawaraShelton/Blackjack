@@ -3,26 +3,26 @@ using System.Collections.Generic;
 
 namespace Blackjack
 {
-    abstract class Dealer : Player
+    abstract class Dealer
     {
         protected Shoe shoe;
-        protected List<Player> players;
+        protected List<IPlayer> players;
 
         public Dealer()
         {
-            players = new List<Player>();
+            players = new List<IPlayer>();
             Shuffle();
         }
 
         public abstract void Shuffle(int numberOfDecks = 1);
         public abstract String Deal();
 
-        public abstract new String ShowHand();
+        public abstract String ShowHand();
         public abstract String PlayHand();
 
         public abstract void Go();
 
-        public void AddPlayer(Player player)
+        public void AddPlayer(IPlayer player)
         {
             players.Add(player);
         }
