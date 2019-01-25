@@ -3,8 +3,55 @@ using System.Collections.Generic;
 
 namespace Blackjack
 {
-    abstract class Dealer
+    abstract class Dealer: IPlayer
     {
+        #region IPlayer Implementation
+        //  >>>>>[  Implement interface IPlayer
+        //          - jds | 2019.01.25
+        //          -----
+        public Hand PlayerHand;
+        Hand IPlayer.PlayerHand
+        {
+            get
+            {
+                return PlayerHand;
+            }
+            set
+            {
+                PlayerHand = value;
+            }
+        }
+
+        public String PlayerName;
+        string IPlayer.PlayerName
+        {
+            get
+            {
+                return PlayerName;
+            }
+            set
+            {
+                PlayerName = value;
+            }
+        }
+
+        public void NewHand()
+        {
+            PlayerHand.Clear();
+        }
+
+        public void AddToHand(string Card)
+        {
+            PlayerHand.Add(Card);
+        }
+
+        public virtual string ShowHand()
+        {
+            return PlayerHand.Show();
+        }
+
+        #endregion
+
         protected Shoe shoe;
         protected List<IPlayer> players;
 
@@ -17,7 +64,6 @@ namespace Blackjack
         public abstract void Shuffle(int numberOfDecks = 1);
         public abstract String Deal();
 
-        public abstract String ShowHand();
         public abstract String PlayHand();
 
         public abstract void Go();

@@ -214,19 +214,19 @@ namespace Blackjack
                             }
                             else
                             {
-                                if (playerInGame.ValueOfHand() == me.ValueOfHand())
+                                if (playerInGame.ValueOfHand == me.ValueOfHand)
                                 {
                                     Console.WriteLine("{0} is a push.", playerInGame.PlayerName);
                                     playerInGame.Push();
                                 }
 
-                                if (playerInGame.ValueOfHand() < me.ValueOfHand())
+                                if (playerInGame.ValueOfHand < me.ValueOfHand)
                                 {
                                     Console.WriteLine("{0} loses the wager.", playerInGame.PlayerName);
                                     playerInGame.LoseWager();
                                 }
 
-                                if (playerInGame.ValueOfHand() > me.ValueOfHand())
+                                if (playerInGame.ValueOfHand > me.ValueOfHand)
                                 {
                                     Console.WriteLine("{0} WINS!", playerInGame.PlayerName);
                                     playerInGame.WinWager();

@@ -9,6 +9,8 @@ namespace Blackjack
 
     class BlackjackPlayer: IPlayer
     {
+
+        #region IPlayer Implementation
         //  >>>>>[  Implement interface IPlayer
         //          - jds | 2019.01.25
         //          -----
@@ -56,6 +58,8 @@ namespace Blackjack
             return PlayerHand.Show();
         }
 
+        #endregion
+
         //  >>>>>[  Add features specific to the BlackJackPlayer
         //          - jds | 2019.01.25
         //          -----
@@ -66,6 +70,24 @@ namespace Blackjack
         public Boolean Standing { get; set; }
         public Boolean CanSurrender { get; set; }
         public Boolean Surrendered { get; set; }
+
+        public Boolean HasBlackjack
+        {
+            get
+            {
+                return PlayerHand.IsBlackJack();
+            }
+        }
+
+        public int ValueOfHand
+        {
+            get
+            {
+                return PlayerHand.Value();
+            }
+        }
+
+        #region BlackjackPlayer Constructors
 
         public BlackjackPlayer(String Name = "Dealer")
         {
@@ -80,6 +102,8 @@ namespace Blackjack
             PlayerName = Name;
             Cash = fundsAvailable;
         }
+
+        #endregion
 
         public void Win()
         {
@@ -100,15 +124,10 @@ namespace Blackjack
 
         public void WinWager()
         {
-            if (HasBlackjack())
+            if (HasBlackjack)
                 Cash += (int)(Bet * 1.5);
             else
                 Cash += Bet;
-        }
-
-        public Boolean HasBlackjack()
-        {
-            return PlayerHand.IsBlackJack();
         }
 
         public void Push()
@@ -117,11 +136,6 @@ namespace Blackjack
             //          the available cash until after the hand is lost,
             //          there is nothing that needs to be done here.
             //          -----
-        }
-
-        public int ValueOfHand()
-        {
-            return PlayerHand.Value();
         }
 
         public void Stand()
