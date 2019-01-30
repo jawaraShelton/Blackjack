@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0BBD499B-1D40-4CA6-9B74-C9109291B6E2}</ProjectGuid>
+    <ProjectGuid>{DCE89945-2759-4D4E-A176-DA1172421372}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Blackjack</RootNamespace>
-    <AssemblyName>Blackjack</AssemblyName>
+    <RootNamespace>Blackjack.MVC</RootNamespace>
+    <AssemblyName>Blackjack.MVC</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -42,35 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application\BlackjackModel.cs" />
-    <Compile Include="Application\BlackjackController.cs" />
-    <Compile Include="Application\BlackjackView.cs" />
-    <Compile Include="BlackjackDealer.cs" />
-    <Compile Include="CasinoDealer.cs" />
-    <Compile Include="BlackjackPlayer.cs" />
-    <Compile Include="MVC\Controller.cs" />
-    <Compile Include="MVC\Model.cs" />
-    <Compile Include="PlayingCard.cs" />
-    <Compile Include="Dealer.cs" />
-    <Compile Include="Deck.cs" />
-    <Compile Include="Hand.cs" />
-    <Compile Include="Player.cs" />
-    <Compile Include="Blackjack\Program.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-    <Compile Include="Shoe.cs" />
-    <Compile Include="MVC\View.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
