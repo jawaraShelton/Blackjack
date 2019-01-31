@@ -8,7 +8,7 @@ namespace Blackjack
 {
     class BlackjackDealer: CasinoDealer
     {
-        protected BlackjackPlayer me;
+        public BlackjackPlayer me;
         // protected new List<BlackjackPlayer> players;
 
         public BlackjackDealer()
@@ -38,10 +38,10 @@ namespace Blackjack
 
         public override String PlayHand()
         {
-            while (me.PlayerHand.Value() <= 17)
-                me.PlayerHand.Add(Deal());
+            while (PlayerHand.Value() <= 17)
+                PlayerHand.Add(Deal());
 
-            return me.PlayerHand.Show() + "\n" + (me.PlayerHand.Value() > 21 ? "Dealer Busts." : "");
+            return PlayerHand.Show() + "\n" + (PlayerHand.Value() > 21 ? "Dealer Busts." : "");
         }
 
         public override void Go()

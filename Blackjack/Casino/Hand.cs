@@ -70,7 +70,10 @@ namespace Blackjack
 
         public override string ToString()
         {
-            return (Show());
+            if (hand.Count > 0)
+                return (Show());
+            else
+                return "EMPTY";
         }
         
     }

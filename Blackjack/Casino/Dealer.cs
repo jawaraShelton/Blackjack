@@ -37,6 +37,9 @@ namespace Blackjack
 
         public void NewHand()
         {
+            if(PlayerHand == null)
+                PlayerHand = new Hand();
+
             PlayerHand.Clear();
         }
 

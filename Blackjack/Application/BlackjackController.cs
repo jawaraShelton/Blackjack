@@ -18,8 +18,14 @@ namespace Blackjack.Application
         public bool Execute(string command)
         {
             bool retval = true;
-            switch (command)
+            string[] args = command.Split(' ');
+
+            switch (args[0])
             {
+                case "bet":
+                    if (int.TryParse(args[1], out int bet))
+                        model.Bet(bet);
+                    break;
                 case "hit":
                     model.Hit();
                     break;
@@ -34,6 +40,9 @@ namespace Blackjack.Application
                     break;
                 case "surrender":
                     model.Surrender();
+                    break;
+                case "quit":
+                    Environment.Exit(0);
                     break;
                 default:
                     //  >>>>>[  Invalid Command. Notify View command failed.
