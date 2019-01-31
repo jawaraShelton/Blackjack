@@ -32,8 +32,8 @@ namespace Blackjack.Application
             String command;
             do
             {
-                Console.WriteLine("Available Commands: hit | stand | double down {0}", Model.CanSurrender() ? " | surrender" : "");
-                Console.Write("Ready, {0}: ", Model.PlayerName());
+                Console.WriteLine("Available Commands: hit | stand | double down {0}", Model.GetPlayer().CanSurrender ? " | surrender" : "");
+                Console.Write("Ready, {0}: ", Model.GetPlayer().PlayerName);
                 command = Console.ReadLine().ToLower();
             } while (!Controller.Execute(command));
         }

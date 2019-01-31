@@ -121,16 +121,16 @@ namespace Blackjack
             switch (Suit)
             {
                 case CardSuit.Diamonds:
-                    retval += "D";
+                    retval += "♦";
                     break;
                 case CardSuit.Clubs:
-                    retval += "C";
+                    retval += "♣";
                     break;
                 case CardSuit.Hearts:
-                    retval += "H";
+                    retval += "♥";
                     break;
                 case CardSuit.Spades:
-                    retval += "S";
+                    retval += "♠";
                     break;
             }
 

@@ -8,8 +8,9 @@ namespace Blackjack
     {
         static void Main(string[] args)
         {
-            Dealer dealer = new BlackjackDealer();
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
 
+            Dealer dealer = new BlackjackDealer();
             dealer.AddPlayer(new BlackjackPlayer("Player 1", 500));
             dealer.Go();
         }

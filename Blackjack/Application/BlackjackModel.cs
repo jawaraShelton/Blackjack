@@ -22,14 +22,9 @@ namespace Blackjack.Application
             this.View = View;
         }
 
-        public Boolean CanSurrender()
+        public BlackjackPlayer GetPlayer()
         {
-            return Player.CanSurrender;
-        }
-
-        public String PlayerName()
-        {
-            return Player.PlayerName;
+            return Player;
         }
 
         public void Hit()
@@ -122,7 +117,7 @@ namespace Blackjack.Application
             }
             else
             {
-                Console.WriteLine("That options is only available as the first decision of your hand.");
+                Console.WriteLine("That option is only available as the first decision of your hand.");
             }
 
             View.ModelChanged();
