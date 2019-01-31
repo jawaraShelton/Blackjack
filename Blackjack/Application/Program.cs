@@ -18,7 +18,7 @@ namespace Blackjack.Application
             BlackjackView View = new BlackjackView(Model, Controller);
 
             Model.LinkView(View);
-            View.Show();
+            View.ModelChanged();
         }
     }
 }

@@ -83,14 +83,19 @@ namespace Blackjack.Application
             return Dealer.PlayerHand.ToString();
         }
 
-        public String GetWager()
+        public int GetWager()
         {
-            return Player.Bet.ToString();
+            return Player.Bet;
         }
 
         public BlackjackPlayer GetPlayer()
         {
             return Player;
+        }
+
+        public int GetCashAvailable()
+        {
+            return Player.Cash;
         }
 
         public void Bet(int amount)
@@ -148,22 +153,32 @@ namespace Blackjack.Application
             //          tap the table with finger or wave hand toward body 
             //          (in games dealt face up).
             //          -----
-            NoSurrender();
 
-            Player.AddToHand(Dealer.Deal());
-
-            FlavorText.Clear();
-            ResultText.Clear();
-
-            FlavorText.Add("The Dealer slides you a card.");
-            if (Player.Bust)
+            if(Commands["hit"])
             {
-                ResultText.Add("And the Player goes bust...");
-                DealerGo();
+                NoSurrender();
+
+                Player.AddToHand(Dealer.Deal());
+
+                FlavorText.Clear();
+                ResultText.Clear();
+
+                FlavorText.Add("The Dealer slides you a card.");
+                if (Player.Bust)
+                {
+                    ResultText.Add("And the Player goes bust...");
+                    View.ModelChanged(true);
+
+                    DealerGo();
+                }
+                else
+                {
+                    View.ModelChanged();
+                }
             }
             else
             {
-                View.ModelChanged();
+                ResultText.Add("Command not available.");
             }
 
 
@@ -274,34 +289,45 @@ namespace Blackjack.Application
             Player.Bust = false;
             Player.Standing = false;
             Player.Surrendered = false;
+            Player.Bet = 0;
+
+            FlavorText.Clear();
+            ResultText.Clear();
 
             ResetCommandAvailability();
+
+            View.ModelChanged();
         }
 
         private void DealerGo()
         {
             //  >>>>>[  Score the hand, and distribute payouts.
             //          -----
+            FlavorText.Clear();
+            ResultText.Clear();
 
+            FlavorText.Add("Dealer Plays...");
             Dealer.PlayHand();
 
             if (!Player.Bust)
             {
                 if (Dealer.me.Bust)
                 {
+                    ResultText.Add("Dealer Busts!");
+                    ResultText.Add(Player.PlayerName + " WINS!");
                     Player.WinWager();
                 }
                 else
                 {
                     if (Player.ValueOfHand == Dealer.me.ValueOfHand)
                     {
-                        ResultText.Add(Player.PlayerName + " is a push.");
+                        ResultText.Add("Push.");
                         Player.Push();
                     }
 
                     if (Player.ValueOfHand < Dealer.me.ValueOfHand)
                     {
-                        ResultText.Add(Player.PlayerName + " loses the wager.");
+                        ResultText.Add(Player.PlayerName + " loses.");
                         Player.LoseWager();
                     }
 
@@ -314,13 +340,12 @@ namespace Blackjack.Application
             }
             else
             {
-                ResultText.Add(Player.PlayerName + " loses the wager.");
+                ResultText.Add(Player.PlayerName + " loses.");
                 Player.LoseWager();
             }
 
+            View.ModelChanged(true);
             SetupNewHand();
-            View.ModelChanged();
-            
         }
     }
 }

@@ -36,13 +36,18 @@ namespace Blackjack.Application
 
         public void ModelChanged()
         {
+            ModelChanged(false);
+        }
+
+        public void ModelChanged(Boolean viewOnly = false)
+        {
             if (Model != null)
-                Show();
+                Show(viewOnly);
             else
                 throw new InvalidOperationException("The View lacks its corresponding Model.");
         }
 
-        public void Show()
+        public void Show(Boolean viewOnly)
         {
             if (Model.GetFlavorText().Count() > 0)
             {
@@ -51,20 +56,24 @@ namespace Blackjack.Application
                     Console.WriteLine(str);
             }
 
+            Console.WriteLine("--------------");
+            Console.WriteLine("Dealer's Hand : {0}", Model.GetDealerHand());
+            Console.WriteLine("Player's Hand : {0}", Model.GetPlayerHand());
+            Console.WriteLine("Current Wager : {0}", Model.GetWager().ToString());
             Console.WriteLine("-----");
-            Console.WriteLine("Dealer's Hand: {0}", Model.GetDealerHand());
-            Console.WriteLine("Player's Hand: {0}", Model.GetPlayerHand());
-            Console.WriteLine("Your Wager   : {0}", Model.GetWager());
+            Console.WriteLine("Cash Available: {0}", (Model.GetCashAvailable() - Model.GetWager()).ToString());
+            Console.WriteLine("--------------");
 
             if (Model.GetResultText().Count() > 0)
             {
                 Console.WriteLine();
                 foreach (String str in Model.GetResultText())
-                    Console.WriteLine(str);
+                    Console.WriteLine("    {0}", str);
             }
 
             Console.WriteLine();
-            GetCommand();
+            if(!viewOnly)
+                GetCommand();
         }
 
         private void GetCommand()
