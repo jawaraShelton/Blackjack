@@ -180,8 +180,6 @@ namespace Blackjack.Application
             {
                 ResultText.Add("Command not available.");
             }
-
-
         }
 
         public void Stand()
@@ -220,23 +218,24 @@ namespace Blackjack.Application
                 if (Player.Bust)
                 {
                     ResultText.Add("And the Player goes bust...");
+                    View.ModelChanged(true);
+
                     DealerGo();
                 }
                 else
                 {
                     Player.Stand();
-                    Dealer.PlayHand();
-
                     ResultText.Add("Player stands.");
+                    View.ModelChanged(true);
+
                     DealerGo();
                 }
             }
             else
             {
                 FlavorText.Add("You do not have enough money for that.");
+                View.ModelChanged();
             }
-
-            View.ModelChanged();
         }
 
         public void Split()
@@ -306,11 +305,11 @@ namespace Blackjack.Application
             FlavorText.Clear();
             ResultText.Clear();
 
-            FlavorText.Add("Dealer Plays...");
-            Dealer.PlayHand();
-
             if (!Player.Bust)
             {
+                FlavorText.Add("Dealer Plays...");
+                Dealer.PlayHand();
+
                 if (Dealer.me.Bust)
                 {
                     ResultText.Add("Dealer Busts!");

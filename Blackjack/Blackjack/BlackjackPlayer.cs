@@ -109,7 +109,7 @@ namespace Blackjack
         {
         }
 
-        public Boolean DoubleDown()
+        public bool DoubleDown()
         {
             if (Bet * 2 <= Cash)
                 Bet = Bet * 2;
