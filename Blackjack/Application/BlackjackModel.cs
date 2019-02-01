@@ -8,6 +8,12 @@ namespace Blackjack.Application
 {
     class BlackjackModel : Model
     {
+        //  >>>>>[  Game logic developed using rules found at 
+        //          https://www.pagat.com/banking/blackjack.html
+        //
+        //          jds | 2019.01.23
+        //          -----
+
         private BlackjackPlayer Player;
         private BlackjackDealer Dealer;
         private BlackjackView View;
@@ -332,7 +338,7 @@ namespace Blackjack.Application
             FlavorText.Clear();
             ResultText.Clear();
 
-            if (!Player.Bust)
+            if (!Player.Bust && !Player.Surrendered)
             {
                 FlavorText.Add("Dealer Plays...");
                 Dealer.PlayHand();
@@ -366,7 +372,7 @@ namespace Blackjack.Application
             }
             else
             {
-                ResultText.Add(Player.PlayerName + " loses.");
+                ResultText.Add(Player.PlayerName + (Player.Surrendered ? " surrendered." : " loses."));
                 Player.LoseWager();
             }
 

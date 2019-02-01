@@ -69,8 +69,6 @@ namespace Blackjack
 
         public abstract String PlayHand();
 
-        public abstract void Go();
-
         public void AddPlayer(IPlayer player)
         {
             players.Add(player);
