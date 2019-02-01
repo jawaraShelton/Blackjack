@@ -1,5 +1,5 @@
 # jdsBlackjack
-Simple, Console-based Blackjack game.
+Simple, Console-based Blackjack game using MVC design pattern.
 
 RULES TAKEN FROM: https://www.pagat.com/banking/blackjack.html
 
