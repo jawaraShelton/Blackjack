@@ -337,6 +337,8 @@ namespace Blackjack.Application
                 FlavorText.Add("Dealer Plays...");
                 Dealer.PlayHand();
 
+                Console.WriteLine("Value of Dealer's hand: {0}", Dealer.PlayerHand.Value());
+                Console.WriteLine("Value of Player's hand: {0}", Player.ValueOfHand);
                 if (Dealer.PlayerHand.Value() > 21)
                 {
                     ResultText.Add("Dealer Busts!");
