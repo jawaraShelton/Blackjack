@@ -337,7 +337,7 @@ namespace Blackjack.Application
                 FlavorText.Add("Dealer Plays...");
                 Dealer.PlayHand();
 
-                if (Dealer.me.Bust)
+                if (Dealer.PlayerHand.Value() > 21)
                 {
                     ResultText.Add("Dealer Busts!");
                     ResultText.Add(Player.PlayerName + " WINS!");
@@ -345,19 +345,19 @@ namespace Blackjack.Application
                 }
                 else
                 {
-                    if (Player.ValueOfHand == Dealer.me.ValueOfHand)
+                    if (Player.ValueOfHand == Dealer.PlayerHand.Value())
                     {
                         ResultText.Add("Push.");
                         Player.Push();
                     }
 
-                    if (Player.ValueOfHand < Dealer.me.ValueOfHand)
+                    if (Player.ValueOfHand < Dealer.PlayerHand.Value())
                     {
                         ResultText.Add(Player.PlayerName + " loses.");
                         Player.LoseWager();
                     }
 
-                    if (Player.ValueOfHand > Dealer.me.ValueOfHand)
+                    if (Player.ValueOfHand > Dealer.PlayerHand.Value())
                     {
                         ResultText.Add(Player.PlayerName + " WINS!");
                         Player.WinWager();
