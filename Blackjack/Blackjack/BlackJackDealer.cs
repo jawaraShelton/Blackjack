@@ -9,6 +9,8 @@ namespace Blackjack
     class BlackjackDealer: CasinoDealer
     {
         public BlackjackPlayer me;
+        private Boolean reveal;
+
         // protected new List<BlackjackPlayer> players;
 
         public BlackjackDealer()
@@ -16,6 +18,7 @@ namespace Blackjack
             //players = new List<BlackjackPlayer>();
             me = new BlackjackPlayer();
             Shuffle();
+            reveal = false;
         }
 
         //public void AddPlayer(BlackjackPlayer player)
@@ -28,16 +31,25 @@ namespace Blackjack
             return (shoe.Draw());
         }
 
+        public void ResetReveal()
+        {
+            reveal = false;
+        }
+
         public override String ShowHand()
         {
-            String returnValue = me.PlayerHand.Show();
+            String returnValue = PlayerHand.ToString();
 
-            returnValue = "??" + returnValue.Substring(returnValue.IndexOf(' '));
+            if(!reveal && !returnValue.Equals("EMPTY"))
+                returnValue = "??" + returnValue.Substring(returnValue.IndexOf(' '));
+
             return (returnValue);
         }
 
         public override String PlayHand()
         {
+            reveal = true;
+
             while (PlayerHand.Value() <= 17)
                 PlayerHand.Add(Deal());
 

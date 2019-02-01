@@ -75,12 +75,12 @@ namespace Blackjack.Application
 
         public String GetPlayerHand()
         {
-            return Player.PlayerHand.ToString();
+            return Player.ShowHand();
         }
 
         public String GetDealerHand()
         {
-            return Dealer.PlayerHand.ToString();
+            return Dealer.ShowHand();
         }
 
         public int GetWager()
@@ -283,6 +283,8 @@ namespace Blackjack.Application
         {
             Dealer.NewHand();
             Player.NewHand();
+
+            Dealer.ResetReveal();
 
             Player.CanSurrender = true;
             Player.Bust = false;

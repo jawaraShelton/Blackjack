@@ -55,7 +55,7 @@ namespace Blackjack
 
         public string ShowHand()
         {
-            return PlayerHand.Show();
+            return PlayerHand.ToString();
         }
 
         #endregion
