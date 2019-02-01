@@ -178,7 +178,8 @@ namespace Blackjack.Application
             }
             else
             {
-                ResultText.Add("Command not available.");
+                FlavorText.Add("Command not available.");
+                View.ModelChanged();
             }
         }
 
@@ -187,16 +188,24 @@ namespace Blackjack.Application
             // >>>>>[   Signal: Slide cards under chips (in handheld games); 
             //          wave hand horizontally (in games dealt face up).
             //          -----
-            Player.Stand();
-            Dealer.PlayHand();
+            if (Commands["stand"])
+            {
+                Player.Stand();
+                Dealer.PlayHand();
 
-            FlavorText.Clear();
-            ResultText.Clear();
+                FlavorText.Clear();
+                ResultText.Clear();
 
-            FlavorText.Add("Player stands.");
-            DealerGo();
+                FlavorText.Add("Player stands.");
+                View.ModelChanged(true);
 
-            View.ModelChanged();
+                DealerGo();
+            }
+            else
+            {
+                FlavorText.Add("Command not available.");
+                View.ModelChanged();
+            }
         }
 
         public void DoubleDown()
@@ -209,34 +218,42 @@ namespace Blackjack.Application
             FlavorText.Clear();
             ResultText.Clear();
 
-            if (Player.DoubleDown())
+            if (Commands["double down"])
             {
-                FlavorText.Add("You place the additional chips beside your original bet--outside the betting box.");
-                FlavorText.Add("Player's bet is now $" + Player.Bet.ToString());
-
-                Player.AddToHand(Dealer.Deal());
-                if (Player.Bust)
+                if (Player.DoubleDown())
                 {
-                    ResultText.Add("And the Player goes bust...");
-                    View.ModelChanged(true);
+                    FlavorText.Add("You place the additional chips beside your original bet--outside the betting box.");
+                    FlavorText.Add("Player's bet is now $" + Player.Bet.ToString());
 
-                    DealerGo();
+                    Player.AddToHand(Dealer.Deal());
+                    if (Player.Bust)
+                    {
+                        ResultText.Add("And the Player goes bust...");
+                        View.ModelChanged(true);
+
+                        DealerGo();
+                    }
+                    else
+                    {
+                        Player.Stand();
+                        ResultText.Add("Player stands.");
+                        View.ModelChanged(true);
+
+                        DealerGo();
+                    }
                 }
                 else
                 {
-                    Player.Stand();
-                    ResultText.Add("Player stands.");
-                    View.ModelChanged(true);
-
-                    DealerGo();
+                    FlavorText.Add("You do not have enough money for that.");
+                    View.ModelChanged();
                 }
             }
             else
             {
-                FlavorText.Add("You do not have enough money for that.");
+                FlavorText.Add("Command not available.");
                 View.ModelChanged();
             }
-        }
+}
 
         public void Split()
         {
@@ -263,20 +280,28 @@ namespace Blackjack.Application
             FlavorText.Clear();
             ResultText.Clear();
 
-            if (Player.CanSurrender)
+            if (Commands["surrender"])
             {
-                Player.Surrender();
+                if (Player.CanSurrender)
+                {
+                    Player.Surrender();
 
-                FlavorText.Add(Player.PlayerName + " surrenders the hand .");
-                FlavorText.Add("Bet is now $" + Player.Bet.ToString());
-                DealerGo();
+                    FlavorText.Add(Player.PlayerName + " surrenders the hand .");
+                    FlavorText.Add("Bet is now $" + Player.Bet.ToString());
+                    DealerGo();
+                }
+                else
+                {
+                    FlavorText.Add("That option is only available as the first decision of your hand.");
+                }
+
+                View.ModelChanged();
             }
             else
             {
-                FlavorText.Add("That option is only available as the first decision of your hand.");
+                FlavorText.Add("Command not available.");
+                View.ModelChanged();
             }
-
-            View.ModelChanged();
         }
 
         private void SetupNewHand()
