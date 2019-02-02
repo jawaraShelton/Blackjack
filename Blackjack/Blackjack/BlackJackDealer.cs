@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Blackjack.Blackjack;
 
 namespace Blackjack
 {
@@ -14,6 +11,7 @@ namespace Blackjack
         public BlackjackDealer()
         {
             me = new BlackjackPlayer();
+            PlayerHand = new BlackjackHand();
             Shuffle();
             reveal = false;
         }

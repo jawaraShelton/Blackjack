@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Blackjack.Blackjack;
 
 namespace Blackjack
 {
@@ -14,7 +11,7 @@ namespace Blackjack
         //  >>>>>[  Implement interface IPlayer
         //          - jds | 2019.01.25
         //          -----
-        public Hand PlayerHand = new Hand();
+        public BlackjackHand PlayerHand = new BlackjackHand();
         Hand IPlayer.PlayerHand
         {
             get
@@ -23,7 +20,7 @@ namespace Blackjack
             }
             set
             {
-                PlayerHand = value;
+                PlayerHand = (BlackjackHand) value;
             }
         }
 
@@ -91,13 +88,13 @@ namespace Blackjack
 
         public BlackjackPlayer(String Name = "Dealer")
         {
-            PlayerHand = new Hand();
+            PlayerHand = new BlackjackHand();
             NewHand();
         }
 
         public BlackjackPlayer(String Name, int fundsAvailable)
         {
-            PlayerHand = new Hand();
+            PlayerHand = new BlackjackHand();
 
             PlayerName = Name;
             Cash = fundsAvailable;
@@ -111,10 +108,11 @@ namespace Blackjack
 
         public bool DoubleDown()
         {
+            int prevBet = Bet;
             if (Bet * 2 <= Cash)
                 Bet = Bet * 2;
 
-            return Bet * 2 <= Cash;
+            return prevBet *2 <= Cash;
         }
 
         public void LoseWager()

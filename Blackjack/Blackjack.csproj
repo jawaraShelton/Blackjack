@@ -65,6 +65,7 @@
     <Compile Include="Application\BlackjackView.cs" />
     <Compile Include="Application\Program.cs" />
     <Compile Include="Blackjack\BlackjackDealer.cs" />
+    <Compile Include="Blackjack\BlackjackHand.cs" />
     <Compile Include="Casino\CasinoDealer.cs" />
     <Compile Include="Blackjack\BlackjackPlayer.cs" />
     <Compile Include="MVC\Controller.cs" />
