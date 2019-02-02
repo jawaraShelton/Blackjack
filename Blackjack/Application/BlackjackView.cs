@@ -61,7 +61,7 @@ namespace Blackjack.Application
             Console.WriteLine("Player's Hand : {0}", Model.GetPlayerHand());
             Console.WriteLine("Current Wager : {0}", Model.GetWager().ToString());
             Console.WriteLine("-----");
-            Console.WriteLine("Cash Available: {0}", (Model.GetCashAvailable() - Model.GetWager()).ToString());
+            Console.WriteLine("Cash Available: {0}", Model.GetCashAvailable().ToString());
             Console.WriteLine("--------------");
 
             if (Model.GetResultText().Count() > 0)

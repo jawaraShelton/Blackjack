@@ -23,7 +23,7 @@ namespace Blackjack.Application
             switch (args[0])
             {
                 case "bet":
-                    if (int.TryParse(args[1], out int bet))
+                    if (decimal.TryParse(args[1], out decimal bet))
                         model.Bet(bet);
                     break;
                 case "hit":
@@ -32,7 +32,7 @@ namespace Blackjack.Application
                 case "stand":
                     model.Stand();
                     break;
-                case "double":
+                case "decimal":
                     model.DoubleDown();
                     break;
                 case "split":

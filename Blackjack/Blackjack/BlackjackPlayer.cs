@@ -60,8 +60,8 @@ namespace Blackjack
         //  >>>>>[  Add features specific to the BlackJackPlayer
         //          - jds | 2019.01.25
         //          -----
-        public int Cash { get; set; }
-        public int Bet { get; set; }
+        public decimal Cash { get; set; }
+        public decimal Bet { get; set; }
 
         public Boolean Bust { get; set; }
         public Boolean Standing { get; set; }
@@ -92,7 +92,7 @@ namespace Blackjack
             NewHand();
         }
 
-        public BlackjackPlayer(String Name, int fundsAvailable)
+        public BlackjackPlayer(String Name, decimal fundsAvailable)
         {
             PlayerHand = new BlackjackHand();
 
@@ -106,34 +106,40 @@ namespace Blackjack
         {
         }
 
-        public bool DoubleDown()
+        public bool decimalDown()
         {
-            int prevBet = Bet;
-            if (Bet * 2 <= Cash)
+            decimal prevBet = Bet;
+            if (Bet <= Cash)
+            {
+                Cash -= Bet;
                 Bet = Bet * 2;
+            }
 
-            return prevBet *2 <= Cash;
+            return prevBet <= Cash;
         }
 
         public void LoseWager()
         {
-            Cash -= Bet;
+            //  >>>>>[  Since the bet has already been subtracted from the
+            //          available cash there is nothing to be done here.
+            //          -----
         }
 
         public void WinWager()
         {
+            //  >>>>>[  Payout 3:2 if Blackjack. Otherwise 1:1.
+            //          -----
             if (HasBlackjack)
-                Cash += (int)(Bet * 1.5);
+                Cash += (Bet + (Bet * 1.5m));
             else
-                Cash += Bet;
+                Cash += Bet * 2;
         }
 
         public void Push()
         {
-            //  >>>>>[  Since the value of the bet is not subtracted from
-            //          the available cash until after the hand is lost,
-            //          there is nothing that needs to be done here.
+            //  >>>>>[  Return the bet to the player's available cash.
             //          -----
+            Cash += Bet;
         }
 
         public void Stand()
@@ -149,6 +155,7 @@ namespace Blackjack
         public void Surrender()
         {
             Bet = Bet / 2;
+            Cash += Bet / 2;
             Surrendered = true;
         }
 

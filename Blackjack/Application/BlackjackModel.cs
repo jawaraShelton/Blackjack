@@ -40,7 +40,7 @@ namespace Blackjack.Application
             this.Commands.Add("bet", true);
             this.Commands.Add("hit", false);
             this.Commands.Add("stand", false);
-            this.Commands.Add("double down", false);
+            this.Commands.Add("decimal down", false);
             this.Commands.Add("surrender", false);
             this.Commands.Add("quit", true);
         }
@@ -89,7 +89,7 @@ namespace Blackjack.Application
             return Dealer.ShowHand();
         }
 
-        public int GetWager()
+        public decimal GetWager()
         {
             return Player.Bet;
         }
@@ -99,16 +99,17 @@ namespace Blackjack.Application
             return Player;
         }
 
-        public int GetCashAvailable()
+        public decimal GetCashAvailable()
         {
             return Player.Cash;
         }
 
-        public void Bet(int amount)
+        public void Bet(decimal amount)
         {
             if (amount <= Player.Cash)
             {
                 Player.Bet = amount;
+                Player.Cash -= amount;
 
                 List<string> keyList = new List<string>(Commands.Keys);
                 foreach (string str in keyList)
@@ -226,7 +227,7 @@ namespace Blackjack.Application
 
             if (Commands["double down"])
             {
-                if (Player.DoubleDown())
+                if (Player.decimalDown())
                 {
                     FlavorText.Add("You place the additional chips beside your original bet--outside the betting box.");
                     FlavorText.Add("Player's bet is now $" + Player.Bet.ToString());
