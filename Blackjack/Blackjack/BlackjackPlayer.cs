@@ -125,14 +125,9 @@ namespace Blackjack
             //          -----
         }
 
-        public void WinWager()
+        public void Win(decimal Amount)
         {
-            //  >>>>>[  Payout 3:2 if Blackjack. Otherwise 1:1.
-            //          -----
-            if (HasBlackjack)
-                Cash += (Bet + (Bet * 1.5m));
-            else
-                Cash += Bet * 2;
+                Cash += Amount;
         }
 
         public void Push()

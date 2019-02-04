@@ -348,7 +348,7 @@ namespace Blackjack.Application
                 {
                     ResultText.Add("Dealer Busts!");
                     ResultText.Add(Player.PlayerName + " WINS!");
-                    Player.WinWager();
+                    Player.Win(Player.HasBlackjack ? Player.Bet + (Player.Bet * 1.5m) : Player.Bet * 2);
                 }
                 else
                 {
@@ -367,7 +367,7 @@ namespace Blackjack.Application
                     if (Player.ValueOfHand > Dealer.PlayerHand.Value())
                     {
                         ResultText.Add(Player.PlayerName + " WINS!");
-                        Player.WinWager();
+                        Player.Win(Player.HasBlackjack ? Player.Bet + (Player.Bet * 1.5m) : Player.Bet * 2);
                     }
                 }
             }
