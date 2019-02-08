@@ -6,14 +6,46 @@ using System.Threading.Tasks;
 
 namespace Blackjack.Blackjack
 {
-    class BlackjackHand : Hand
+    interface IBlackjackHand : IHand
     {
+        Boolean Standing { get; set; }
+
+        void Stand();
+        Boolean IsBlackjack();
+    
+    }
+
+    class BlackjackHand : Hand, IBlackjackHand
+    {
+        public Boolean Bust {
+            get
+            {
+                return Value() > 21;
+            }
+        }
+
+        public Boolean Standing {
+            get
+            {
+                return Standing;
+            }
+            set
+            {
+                Standing = value;
+            }
+        }
+
+        public void Stand()
+        {
+            Standing = true;
+        }
+
         public override int Value() 
         {
             List<String> Aces = new List<String>();
             int returnValue = 0;
 
-            foreach (String Card in hand)
+            foreach (String Card in Cards)
             {
                 String CardValue = Card.Substring(0, 1);
 
@@ -63,9 +95,9 @@ namespace Blackjack.Blackjack
             Boolean retval = false;
             String nbcLock = "";
 
-            if (hand.Count == 2)
+            if (Cards.Count == 2)
             {
-                foreach (String Card in hand)
+                foreach (String Card in Cards)
                     nbcLock += Card.Substring(0, 1);
 
                 if ("A1|1A AJ|JA AQ|QA AK|KA".Contains(nbcLock))
@@ -73,6 +105,11 @@ namespace Blackjack.Blackjack
             }
 
             return retval;
+        }
+
+        public bool IsBlackjack()
+        {
+            throw new NotImplementedException();
         }
     }
 }

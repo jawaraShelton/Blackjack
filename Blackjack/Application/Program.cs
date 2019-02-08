@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Blackjack.Blackjack;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,8 +12,9 @@ namespace Blackjack.Application
     {
         static void Main(string[] args)
         {
+            BlackjackHand Hand = new BlackjackHand();
             BlackjackDealer Dealer = new BlackjackDealer();
-            BlackjackPlayer Player = new BlackjackPlayer("Player 1", 500);
+            BlackjackPlayer Player = new BlackjackPlayer(Hand, 500, "Player 1");
 
             BlackjackModel Model = new BlackjackModel(Dealer, Player);
             BlackjackController Controller = new BlackjackController(Model);

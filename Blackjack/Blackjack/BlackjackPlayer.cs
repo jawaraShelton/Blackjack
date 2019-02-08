@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Blackjack.Blackjack;
 
 namespace Blackjack
@@ -11,8 +12,8 @@ namespace Blackjack
         //  >>>>>[  Implement interface IPlayer
         //          - jds | 2019.01.25
         //          -----
-        public BlackjackHand PlayerHand = new BlackjackHand();
-        Hand IPlayer.PlayerHand
+
+        public List<IHand> PlayerHand
         {
             get
             {
@@ -20,7 +21,7 @@ namespace Blackjack
             }
             set
             {
-                PlayerHand = (BlackjackHand) value;
+                PlayerHand = value;
             }
         }
 
@@ -46,8 +47,8 @@ namespace Blackjack
 
         public void AddToHand(string Card)
         {
-            PlayerHand.Add(Card);
-            this.Bust = (ValueOfHand > 21);
+            PlayerHand[0].Add(Card);
+            PlayerHand[0].Bust = (PlayerHand[0].Value() > 21);
         }
 
         public string ShowHand()
@@ -63,38 +64,22 @@ namespace Blackjack
         public decimal Cash { get; set; }
         public decimal Bet { get; set; }
 
-        public Boolean Bust { get; set; }
-        public Boolean Standing { get; set; }
         public Boolean CanSurrender { get; set; }
         public Boolean Surrendered { get; set; }
-
-        public Boolean HasBlackjack
-        {
-            get
-            {
-                return PlayerHand.IsBlackJack();
-            }
-        }
 
         public int ValueOfHand
         {
             get
             {
-                return PlayerHand.Value();
+                return PlayerHand[0].Value();
             }
         }
 
         #region BlackjackPlayer Constructors
 
-        public BlackjackPlayer(String Name = "Dealer")
+        public BlackjackPlayer(IHand PlayerHand, decimal fundsAvailable, String Name = "Dealer")
         {
-            PlayerHand = new BlackjackHand();
-            NewHand();
-        }
-
-        public BlackjackPlayer(String Name, decimal fundsAvailable)
-        {
-            PlayerHand = new BlackjackHand();
+            this.PlayerHand.Add(PlayerHand);
 
             PlayerName = Name;
             Cash = fundsAvailable;
@@ -106,7 +91,7 @@ namespace Blackjack
         {
         }
 
-        public bool decimalDown()
+        public bool DoubleDown()
         {
             decimal prevBet = Bet;
             if (Bet <= Cash)
@@ -139,7 +124,7 @@ namespace Blackjack
 
         public void Stand()
         {
-            Standing = true;
+            PlayerHand[0].Standing = true;
         }
 
         public void NoSurrender()

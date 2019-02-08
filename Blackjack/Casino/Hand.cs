@@ -3,13 +3,24 @@ using System.Collections.Generic;
 
 namespace Blackjack
 {
-    class Hand
+    interface IHand
     {
-        public List<String> hand = new List<String>();
-        
+        List<string> Cards { get; set; }
+
+        void Add(String Card);
+        int Value();
+        String Show();
+        void Clear();
+
+    }
+
+    class Hand : IHand
+    {
+        public List<string> Cards { get; set; }
+
         public void Add(String Card)
         {
-            hand.Add(Card);
+            Cards.Add(Card);
         }
 
         public virtual int Value()
@@ -21,7 +32,7 @@ namespace Blackjack
         {
             String returnValue = "";
 
-            foreach (String Card in hand)
+            foreach (String Card in Cards)
                 returnValue += Card + " ";
 
             return (returnValue.Trim(' '));
@@ -29,12 +40,12 @@ namespace Blackjack
 
         public void Clear()
         {
-            hand.Clear();
+            Cards.Clear();
         }
 
         public override string ToString()
         {
-            if (hand.Count > 0)
+            if (Cards.Count > 0)
                 return (Show());
             else
                 return "EMPTY";

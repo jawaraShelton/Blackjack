@@ -9,8 +9,8 @@ namespace Blackjack
         //  >>>>>[  Implement interface IPlayer
         //          - jds | 2019.01.25
         //          -----
-        public Hand PlayerHand;
-        Hand IPlayer.PlayerHand
+
+        public IHand PlayerHand
         {
             get
             {

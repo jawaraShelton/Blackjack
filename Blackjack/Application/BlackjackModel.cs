@@ -319,8 +319,8 @@ namespace Blackjack.Application
             Dealer.ResetReveal();
 
             Player.CanSurrender = true;
-            Player.Bust = false;
-            Player.Standing = false;
+            //  Player.Bust = false;
+            //  Player.Standing = false;
             Player.Surrendered = false;
             Player.Bet = 0;
 
