@@ -8,7 +8,7 @@ namespace Blackjack
         public BlackjackPlayer me;
         private Boolean reveal;
 
-        public BlackjackDealer()
+        public BlackjackDealer(IShoe inShoe) : base(inShoe)
         {
             me = new BlackjackPlayer();
             PlayerHand = new BlackjackHand();

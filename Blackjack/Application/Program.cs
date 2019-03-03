@@ -10,7 +10,18 @@ namespace Blackjack.Application
     {
         static void Main(string[] args)
         {
-            BlackjackDealer Dealer = new BlackjackDealer();
+            //  >>>>>[  ShoeRESTful automatically incorporates 6 decks--all of which 
+            //          handled by the Deck Of Cards API.
+            //          -----
+            // ShoeRESTful Shoe = new ShoeRESTful();
+
+            //  >>>>>[  The Shoe class does NOT automatically incorporate 6 decks. 
+            //          I've a bit more flexibility in how the local Shoe class is
+            //          created.
+            //          -----
+            Shoe Shoe = new Shoe(6);
+
+            BlackjackDealer Dealer = new BlackjackDealer(Shoe);
             BlackjackPlayer Player = new BlackjackPlayer("Player 1", 500);
 
             BlackjackModel Model = new BlackjackModel(Dealer, Player);

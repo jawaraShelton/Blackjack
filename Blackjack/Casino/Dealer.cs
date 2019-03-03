@@ -55,11 +55,12 @@ namespace Blackjack
 
         #endregion
 
-        protected Shoe shoe;
+        protected IShoe shoe;
         protected List<IPlayer> players;
 
-        public Dealer()
+        public Dealer(IShoe inShoe)
         {
+            shoe = inShoe;
             players = new List<IPlayer>();
             Shuffle();
         }

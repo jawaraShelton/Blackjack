@@ -8,13 +8,16 @@ namespace Blackjack
 {
     abstract class CasinoDealer: Dealer
     {
+        public CasinoDealer(IShoe inShoe) : base(inShoe)
+        {
+        }
+
         public override void Shuffle(int numberOfDecks = 4)
         {
             //  >>>>>[  Shuffle the cards by creating a new shoe. The shoe 
             //          randomizes the cards on creation.
             //          - jds 2019.01.23
             //          -----
-            shoe = new Shoe(numberOfDecks);
         }
     }
 }

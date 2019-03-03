@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Blackjack
 {
-    class Shoe
+    class Shoe: IShoe
     {
         private int currentDeck;
         private IList<Deck> shoe;
@@ -25,14 +25,14 @@ namespace Blackjack
                 this.Add(new Deck());
         }
 
+        public void Add(IDeck deck)
+        {
+            shoe.Add((Deck) deck);
+        }
+
         public void Add(Deck deck)
         {
             shoe.Add(deck);
-        }
-
-        public void Clear()
-        {
-            shoe.Clear();
         }
 
         public String Draw()
