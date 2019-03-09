@@ -25,6 +25,15 @@ namespace Blackjack
                 this.Add(new Deck());
         }
 
+        public Shoe(int NumberOfDecks, List<PlayingCard> CardsToExclude)
+        {
+            shoe = new List<Deck>();
+            rng = new Random();
+
+            for (int i = 0; i < NumberOfDecks; i++)
+                this.Add(new Deck(CardsToExclude));
+        }
+
         public void Add(IDeck deck)
         {
             shoe.Add((Deck) deck);

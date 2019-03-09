@@ -15,14 +15,29 @@ namespace Blackjack
             Shuffle();
         }
 
+        public Deck(List<PlayingCard> CardsToExclude)
+        {
+            Build(CardsToExclude);
+            Shuffle();
+        }
+
         public void Build()
         {
+            Build(new List<PlayingCard>());
+        }
+
+        public void Build(List<PlayingCard> CardsToExclude)
+        {
+            PlayingCard CardGenerated = null;
             //  >>>>>[  Build the Deck. Eliminating Jokers for now.
             //          -----
             foreach (CardSuit Suit in Enum.GetValues(typeof(CardSuit)).Cast<CardSuit>())
                 foreach (CardRank Rank in Enum.GetValues(typeof(CardRank)).Cast<CardRank>())
-                    if (Rank != CardRank.Joker)
-                        Cards.Add(new PlayingCard(Suit, Rank));
+                {
+                    CardGenerated = new PlayingCard(Suit, Rank);
+                    if (Rank != CardRank.Joker && !CardsToExclude.Contains(CardGenerated))
+                        Cards.Add(CardGenerated);
+                }
         }
 
         public void Shuffle()

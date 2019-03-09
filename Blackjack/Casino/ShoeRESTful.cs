@@ -55,6 +55,23 @@ namespace Blackjack
 
     class ShoeRESTful: IShoe
     {
+
+        //  >>>>>[  Using a pre-existing deck_id until I can resolve the following error code. Note
+        //          that this deck will be discarded if it isn't used at least once every 2 weeks.
+        //          
+        //          Forbidden(403)
+        //
+        //          CSRF verification failed.Request aborted.
+        //          You are seeing this message because this site requires a CSRF cookie when 
+        //          submitting forms. This cookie is required for security reasons, to ensure that 
+        //          your browser is not being hijacked by third parties.
+        //  
+        //          If you have configured your browser to disable cookies, please re-enable them, at 
+        //          least for this site, or for 'same-origin' requests.
+        //
+        //          More information is available with DEBUG= True.
+        //          -----
+        //  private String DeckID { get; set; }
         private String DeckID = "zq0gmlvrlb6c";
         private String URL = @"http://deckofcardsapi.com";
 
@@ -73,9 +90,18 @@ namespace Blackjack
             //          I want to re-use. This needs to be updated to re-use an existing deck
             //          or create a new one if the deck_id doesn't exist.
             //          -----
-            // var request = new RestRequest("api/deck/new/shuffle/", Method.POST);
-            var request = new RestRequest("api/deck/{DeckID}/shuffle/");
-            request.AddUrlSegment("DeckID", DeckID);
+            RestRequest request;
+
+            if(String.IsNullOrEmpty(DeckID))
+            {
+                request = new RestRequest("api/deck/new/shuffle/", Method.POST);
+            }
+            else
+            {
+                request = new RestRequest("api/deck/{DeckID}/shuffle/");
+                request.AddUrlSegment("DeckID", DeckID);
+
+            }
 
             var response = Client.Execute<NewDeckResponse>(request);
 
@@ -86,7 +112,7 @@ namespace Blackjack
             }
             else
             {
-                throw new Exception("The attempt to communicate with Deck of Cards API was unsuccessful.");
+                throw new Exception("ShoeRESTful.Shuffle(): The attempt to communicate with Deck of Cards API was unsuccessful.");
             }
         }
 
