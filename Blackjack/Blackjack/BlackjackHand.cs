@@ -8,15 +8,18 @@ namespace Blackjack.Blackjack
 {
     interface IBlackjackHand : IHand
     {
+        Boolean Bust { get; }
         Boolean Standing { get; set; }
+        Decimal Wager { get; set; }
 
         void Stand();
         Boolean IsBlackjack();
-    
     }
 
     class BlackjackHand : Hand, IBlackjackHand
     {
+        public Decimal Wager{ get; set; }
+
         public Boolean Bust {
             get
             {
@@ -90,7 +93,7 @@ namespace Blackjack.Blackjack
             return (returnValue);
         }
 
-        public Boolean IsBlackJack()
+        public Boolean IsBlackjack()
         {
             Boolean retval = false;
             String nbcLock = "";
@@ -105,11 +108,6 @@ namespace Blackjack.Blackjack
             }
 
             return retval;
-        }
-
-        public bool IsBlackjack()
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Blackjack
         //          - jds | 2019.01.25
         //          -----
 
-        public List<IHand> PlayerHand
+        public List<IBlackjackHand> PlayerHand
         {
             get
             {
