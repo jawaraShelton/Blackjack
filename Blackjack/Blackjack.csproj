@@ -60,29 +60,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application\BlackjackModel.cs" />
-    <Compile Include="Application\BlackjackController.cs" />
-    <Compile Include="Application\BlackjackView.cs" />
+    <Compile Include="Model\BlackjackModel.cs" />
+    <Compile Include="Controller\BlackjackController.cs" />
+    <Compile Include="View\BlackjackView.cs" />
     <Compile Include="Application\Program.cs" />
-    <Compile Include="Blackjack\BlackjackDealer.cs" />
-    <Compile Include="Blackjack\BlackjackHand.cs" />
-    <Compile Include="Casino\CasinoDealer.cs" />
-    <Compile Include="Blackjack\BlackjackPlayer.cs" />
-    <Compile Include="MVC\Controller.cs" />
-    <Compile Include="MVC\Model.cs" />
-    <Compile Include="Casino\PlayingCard.cs" />
-    <Compile Include="Casino\Dealer.cs" />
-    <Compile Include="Casino\Deck.cs" />
-    <Compile Include="Casino\Hand.cs" />
-    <Compile Include="Casino\Player.cs" />
+    <Compile Include="Model\Dealer\BlackjackDealer.cs" />
+    <Compile Include="Model\Cards\BlackjackHand.cs" />
+    <Compile Include="Model\Dealer\CasinoDealer.cs" />
+    <Compile Include="Model\Player\BlackjackPlayer.cs" />
+    <Compile Include="Controller\Controller.cs" />
+    <Compile Include="Model\Model.cs" />
+    <Compile Include="Model\Cards\PlayingCard.cs" />
+    <Compile Include="Model\Dealer\Dealer.cs" />
+    <Compile Include="Model\Cards\Deck.cs" />
+    <Compile Include="Model\Cards\Hand.cs" />
+    <Compile Include="Model\Player\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Casino\Shoe.cs" />
-    <Compile Include="MVC\View.cs" />
+    <Compile Include="Model\Cards\Shoe.cs" />
+    <Compile Include="View\View.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
