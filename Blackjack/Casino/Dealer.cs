@@ -10,30 +10,18 @@ namespace Blackjack
         //  >>>>>[  Implement interface IPlayer
         //          - jds | 2019.01.25
         //          -----
-
+        List<BlackjackHand> playerHand;
         public List<BlackjackHand> PlayerHand
         {
-            get
-            {
-                return PlayerHand;
-            }
-            set
-            {
-                PlayerHand = value;
-            }
+            get => playerHand;
+            set => playerHand = value;
         }
 
-        public String PlayerName;
+        public String playerName;
         string IPlayer.PlayerName
         {
-            get
-            {
-                return PlayerName;
-            }
-            set
-            {
-                PlayerName = value;
-            }
+            get => playerName;
+            set => playerName = value;
         }
 
         public void NewHand()
@@ -46,12 +34,15 @@ namespace Blackjack
 
         public void AddToHand(string Card)
         {
-            PlayerHand[0].Add(Card);
+            if (playerHand.Count == 0)
+                playerHand.Add(new BlackjackHand());
+
+            playerHand[0].Add(Card);
         }
 
         public virtual string ShowHand()
         {
-            return PlayerHand[0].Show();
+            return playerHand[0].Show();
         }
 
         #endregion
@@ -61,6 +52,7 @@ namespace Blackjack
 
         public Dealer()
         {
+            playerHand = new List<BlackjackHand>();
             players = new List<IPlayer>();
             Shuffle();
         }

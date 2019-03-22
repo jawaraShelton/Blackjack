@@ -18,6 +18,11 @@ namespace Blackjack
     {
         public List<string> Cards { get; set; }
 
+        public Hand()
+        {
+            Cards = new List<string>();
+        }
+
         public void Add(String Card)
         {
             Cards.Add(Card);
@@ -45,7 +50,7 @@ namespace Blackjack
 
         public override string ToString()
         {
-            if (Cards.Count > 0)
+            if (Cards != null && Cards.Count > 0)
                 return (Show());
             else
                 return "EMPTY";

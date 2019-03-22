@@ -27,7 +27,7 @@ namespace Blackjack
 
         public override String ShowHand()
         {
-            String returnValue = PlayerHand.ToString();
+            String returnValue = me.PlayerHand[0].ToString();
 
             if(!reveal && !returnValue.Equals("EMPTY"))
                 returnValue = "??" + returnValue.Substring(returnValue.IndexOf(' '));

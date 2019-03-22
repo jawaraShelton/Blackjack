@@ -12,16 +12,16 @@ namespace Blackjack
         //  >>>>>[  Implement interface IPlayer
         //          - jds | 2019.01.25
         //          -----
-
+        public List<BlackjackHand> playerHand;
         public List<BlackjackHand> PlayerHand
         {
             get
             {
-                return PlayerHand;
+                return playerHand;
             }
             set
             {
-                PlayerHand = value;
+                playerHand = value;
             }
         }
 
@@ -30,29 +30,32 @@ namespace Blackjack
         {
             get
             {
-                return PlayerName;
+                return this.PlayerName;
             }
             set
             {
-                PlayerName = value;
+                this.PlayerName = value;
             }
         }
 
         public void NewHand()
         { 
-            PlayerHand.Clear();
+            if(PlayerHand!=null)
+                playerHand.Clear();
             ptrCur = 0;
         }
 
         public void AddToHand(string Card)
         {
-            PlayerHand[ptrCur].Add(Card);
-            PlayerHand[ptrCur].Bust = (PlayerHand[ptrCur].Value() > 21);
+            if (playerHand.Count == 0)
+                playerHand.Add(new BlackjackHand());
+
+            playerHand[ptrCur].Add(Card);
         }
 
         public string ShowHand()
         {
-            return PlayerHand.ToString();
+            return (playerHand.Count > 0 ? playerHand[ptrCur].ToString() : "EMPTY");
         }
 
         #endregion
@@ -72,7 +75,7 @@ namespace Blackjack
         {
             get
             {
-                return PlayerHand[ptrCur].Value();
+                return playerHand[ptrCur].Value();
             }
         }
 
@@ -80,7 +83,8 @@ namespace Blackjack
 
         public BlackjackPlayer(BlackjackHand Hand, decimal fundsAvailable, String Name = "Dealer")
         {
-            //this.PlayerHand.Add(Hand);
+            playerHand = new List<BlackjackHand>();
+            playerHand.Add(Hand);
 
             PlayerName = Name;
             Cash = fundsAvailable;
@@ -94,7 +98,7 @@ namespace Blackjack
 
         public BlackjackHand CurrentHand()
         {
-            return PlayerHand[ptrCur];
+            return playerHand[ptrCur];
         }
 
         public bool DoubleDown()
@@ -130,7 +134,7 @@ namespace Blackjack
 
         public void Stand()
         {
-            PlayerHand[ptrCur].Standing = true;
+            playerHand[ptrCur].Standing = true;
         }
 
         public void NoSurrender()
