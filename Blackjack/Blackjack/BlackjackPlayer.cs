@@ -13,7 +13,7 @@ namespace Blackjack
         //          - jds | 2019.01.25
         //          -----
 
-        public List<IBlackjackHand> PlayerHand
+        public List<BlackjackHand> PlayerHand
         {
             get
             {
@@ -41,14 +41,13 @@ namespace Blackjack
         public void NewHand()
         { 
             PlayerHand.Clear();
-            Bust = false;
-            Standing = false;
+            ptrCur = 0;
         }
 
         public void AddToHand(string Card)
         {
-            PlayerHand[0].Add(Card);
-            PlayerHand[0].Bust = (PlayerHand[0].Value() > 21);
+            PlayerHand[ptrCur].Add(Card);
+            PlayerHand[ptrCur].Bust = (PlayerHand[ptrCur].Value() > 21);
         }
 
         public string ShowHand()
@@ -67,19 +66,21 @@ namespace Blackjack
         public Boolean CanSurrender { get; set; }
         public Boolean Surrendered { get; set; }
 
+        private Int16 ptrCur = 0;
+
         public int ValueOfHand
         {
             get
             {
-                return PlayerHand[0].Value();
+                return PlayerHand[ptrCur].Value();
             }
         }
 
         #region BlackjackPlayer Constructors
 
-        public BlackjackPlayer(IHand PlayerHand, decimal fundsAvailable, String Name = "Dealer")
+        public BlackjackPlayer(BlackjackHand Hand, decimal fundsAvailable, String Name = "Dealer")
         {
-            this.PlayerHand.Add(PlayerHand);
+            //this.PlayerHand.Add(Hand);
 
             PlayerName = Name;
             Cash = fundsAvailable;
@@ -89,6 +90,11 @@ namespace Blackjack
 
         public void Win()
         {
+        }
+
+        public BlackjackHand CurrentHand()
+        {
+            return PlayerHand[ptrCur];
         }
 
         public bool DoubleDown()
@@ -124,7 +130,7 @@ namespace Blackjack
 
         public void Stand()
         {
-            PlayerHand[0].Standing = true;
+            PlayerHand[ptrCur].Standing = true;
         }
 
         public void NoSurrender()
@@ -138,6 +144,5 @@ namespace Blackjack
             Cash += Bet / 2;
             Surrendered = true;
         }
-
     }
 }

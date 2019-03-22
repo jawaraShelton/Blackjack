@@ -171,7 +171,7 @@ namespace Blackjack.Application
                 ResultText.Clear();
 
                 FlavorText.Add("The Dealer slides you a card.");
-                if (Player.Bust)
+                if (Player.CurrentHand().Bust)
                 {
                     ResultText.Add("And the Player goes bust...");
                     View.ModelChanged(true);
@@ -227,13 +227,13 @@ namespace Blackjack.Application
 
             if (Commands["double down"])
             {
-                if (Player.decimalDown())
+                if (Player.DoubleDown())
                 {
                     FlavorText.Add("You place the additional chips beside your original bet--outside the betting box.");
                     FlavorText.Add("Player's bet is now $" + Player.Bet.ToString());
 
                     Player.AddToHand(Dealer.Deal());
-                    if (Player.Bust)
+                    if (Player.CurrentHand().Bust)
                     {
                         ResultText.Add("And the Player goes bust...");
                         View.ModelChanged(true);
@@ -319,7 +319,7 @@ namespace Blackjack.Application
             Dealer.ResetReveal();
 
             Player.CanSurrender = true;
-            //  Player.Bust = false;
+            //  Player.CurrentHand().Bust = false;
             //  Player.Standing = false;
             Player.Surrendered = false;
             Player.Bet = 0;
@@ -339,42 +339,45 @@ namespace Blackjack.Application
             FlavorText.Clear();
             ResultText.Clear();
 
-            if (!Player.Bust && !Player.Surrendered)
+            foreach (var pHand in Player.PlayerHand)
             {
-                FlavorText.Add("Dealer Plays...");
-                Dealer.PlayHand();
-
-                if (Dealer.PlayerHand.Value() > 21)
+                if (!pHand.Bust && !Player.Surrendered)
                 {
-                    ResultText.Add("Dealer Busts!");
-                    ResultText.Add(Player.PlayerName + " WINS!");
-                    Player.Win(Player.HasBlackjack ? Player.Bet + (Player.Bet * 1.5m) : Player.Bet * 2);
+                    FlavorText.Add("Dealer Plays...");
+                    Dealer.PlayHand();
+
+                    if (Dealer.PlayerHand[0].Value() > 21)
+                    {
+                        ResultText.Add("Dealer Busts!");
+                        ResultText.Add(Player.PlayerName + " WINS!");
+                        Player.Win(pHand.IsBlackjack() ? pHand.Wager + (pHand.Wager * 1.5m) : pHand.Wager * 2);
+                    }
+                    else
+                    {
+                        if (pHand.Value() == Dealer.PlayerHand[0].Value())
+                        {
+                            ResultText.Add("Push.");
+                            Player.Push();
+                        }
+
+                        if (pHand.Value() < Dealer.PlayerHand[0].Value())
+                        {
+                            ResultText.Add(Player.PlayerName + " loses.");
+                            Player.LoseWager();
+                        }
+
+                        if (pHand.Value() > Dealer.PlayerHand[0].Value())
+                        {
+                            ResultText.Add(Player.PlayerName + " WINS!");
+                            Player.Win(pHand.IsBlackjack() ? Player.Bet + (Player.Bet * 1.5m) : Player.Bet * 2);
+                        }
+                    }
                 }
                 else
                 {
-                    if (Player.ValueOfHand == Dealer.PlayerHand.Value())
-                    {
-                        ResultText.Add("Push.");
-                        Player.Push();
-                    }
-
-                    if (Player.ValueOfHand < Dealer.PlayerHand.Value())
-                    {
-                        ResultText.Add(Player.PlayerName + " loses.");
-                        Player.LoseWager();
-                    }
-
-                    if (Player.ValueOfHand > Dealer.PlayerHand.Value())
-                    {
-                        ResultText.Add(Player.PlayerName + " WINS!");
-                        Player.Win(Player.HasBlackjack ? Player.Bet + (Player.Bet * 1.5m) : Player.Bet * 2);
-                    }
+                    ResultText.Add(Player.PlayerName + (Player.Surrendered ? " surrendered." : " loses."));
+                    Player.LoseWager();
                 }
-            }
-            else
-            {
-                ResultText.Add(Player.PlayerName + (Player.Surrendered ? " surrendered." : " loses."));
-                Player.LoseWager();
             }
 
             View.ModelChanged(true);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Blackjack.Blackjack;
 
 namespace Blackjack
 {
@@ -10,7 +11,7 @@ namespace Blackjack
         //          - jds | 2019.01.25
         //          -----
 
-        public IHand PlayerHand
+        public List<BlackjackHand> PlayerHand
         {
             get
             {
@@ -38,19 +39,19 @@ namespace Blackjack
         public void NewHand()
         {
             if(PlayerHand == null)
-                PlayerHand = new Hand();
+                PlayerHand = new List<BlackjackHand>();
 
             PlayerHand.Clear();
         }
 
         public void AddToHand(string Card)
         {
-            PlayerHand.Add(Card);
+            PlayerHand[0].Add(Card);
         }
 
         public virtual string ShowHand()
         {
-            return PlayerHand.Show();
+            return PlayerHand[0].Show();
         }
 
         #endregion

@@ -8,7 +8,7 @@ namespace Blackjack.Blackjack
 {
     interface IBlackjackHand : IHand
     {
-        Boolean Bust { get; }
+        Boolean Bust { get; set; }
         Boolean Standing { get; set; }
         Decimal Wager { get; set; }
 
@@ -24,6 +24,10 @@ namespace Blackjack.Blackjack
             get
             {
                 return Value() > 21;
+            }
+            set
+            {
+                Bust = value;
             }
         }
 

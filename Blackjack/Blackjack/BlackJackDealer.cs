@@ -10,8 +10,7 @@ namespace Blackjack
 
         public BlackjackDealer()
         {
-            me = new BlackjackPlayer();
-            PlayerHand = new BlackjackHand();
+            me = new BlackjackPlayer(new BlackjackHand(), 0);
             Shuffle();
             reveal = false;
         }
@@ -40,10 +39,10 @@ namespace Blackjack
         {
             reveal = true;
 
-            while (PlayerHand.Value() <= 17)
-                PlayerHand.Add(Deal());
+            while (PlayerHand[0].Value() <= 17)
+                PlayerHand[0].Add(Deal());
 
-            return PlayerHand.Show() + "\n" + (PlayerHand.Value() > 21 ? "Dealer Busts." : "");
+            return PlayerHand[0].Show() + "\n" + (PlayerHand[0].Value() > 21 ? "Dealer Busts." : "");
         }
     }
 }

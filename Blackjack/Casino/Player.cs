@@ -5,7 +5,7 @@ namespace Blackjack
 {
     interface IPlayer
     {
-        List<Blackjack.IBlackjackHand> PlayerHand { get; set; }
+        List<Blackjack.BlackjackHand> PlayerHand { get; set; }
         String PlayerName { get; set; }
 
         void NewHand();
