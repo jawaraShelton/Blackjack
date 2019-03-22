@@ -260,9 +260,9 @@ namespace Blackjack.Application
                 FlavorText.Add("Command not available.");
                 View.ModelChanged();
             }
-}
+        }
 
-        public void Split()
+        public void Split(Decimal Wager)
         {
             //  >>>>>[  Signal: Place additional chips next to the original bet 
             //          outside the betting box; point with two fingers spread 
@@ -270,6 +270,8 @@ namespace Blackjack.Application
             //          -----
             FlavorText.Clear();
             FlavorText.Add("Not Supported (yet). See list of available commands.");
+
+            Player.Split(Wager);
 
             View.ModelChanged();
         }

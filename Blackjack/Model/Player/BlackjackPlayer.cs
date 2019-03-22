@@ -103,11 +103,11 @@ namespace Blackjack
 
         public bool DoubleDown()
         {
-            decimal prevBet = Bet;
-            if (Bet <= Cash)
+            decimal prevBet = playerHand[ptrCur].Wager;
+            if (prevBet <= Cash)
             {
-                Cash -= Bet;
-                Bet = Bet * 2;
+                Cash -= prevBet;
+                playerHand[ptrCur].Wager = prevBet * 2;
             }
 
             return prevBet <= Cash;
@@ -129,7 +129,7 @@ namespace Blackjack
         {
             //  >>>>>[  Return the bet to the player's available cash.
             //          -----
-            Cash += Bet;
+            Cash += playerHand[ptrCur].Wager;
         }
 
         public void Stand()
@@ -144,9 +144,25 @@ namespace Blackjack
 
         public void Surrender()
         {
-            Bet = Bet / 2;
-            Cash += Bet / 2;
+            playerHand[ptrCur].Wager = playerHand[ptrCur].Wager / 2;
+            Cash += playerHand[ptrCur].Wager / 2;
             Surrendered = true;
+        }
+
+        public Boolean Split(Decimal Wager)
+        {
+            Boolean retval = false;
+
+            if (Wager < Cash)
+            {
+                playerHand.Add(new BlackjackHand(playerHand[ptrCur].SplitCard, Wager));
+                playerHand[ptrCur].Cards.Remove(playerHand[ptrCur].SplitCard);
+
+                Cash -= Wager;
+                retval = true;
+            }
+
+            return (retval);
         }
     }
 }

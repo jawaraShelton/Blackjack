@@ -39,6 +39,24 @@ namespace Blackjack.Blackjack
             }
         }
 
+        public String SplitCard
+        {
+            get
+            {
+                return Cards.Last();
+            }
+        }
+
+        public BlackjackHand()
+        {
+        }
+
+        public BlackjackHand(String Card, Decimal Wager)
+        {
+            Cards.Add(Card);
+            this.Wager = Wager;
+        }
+
         public void Stand()
         {
             Standing = true;

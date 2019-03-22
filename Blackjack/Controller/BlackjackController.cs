@@ -36,7 +36,8 @@ namespace Blackjack.Application
                     model.DoubleDown();
                     break;
                 case "split":
-                    model.Split();
+                    if (decimal.TryParse(args[1], out decimal splitWager))
+                        model.Split(splitWager);
                     break;
                 case "surrender":
                     model.Surrender();
