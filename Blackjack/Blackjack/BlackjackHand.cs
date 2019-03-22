@@ -27,14 +27,15 @@ namespace Blackjack.Blackjack
             }
         }
 
+        private Boolean standing;
         public Boolean Standing {
             get
             {
-                return Standing;
+                return standing;
             }
             set
             {
-                Standing = value;
+                standing = value;
             }
         }
 

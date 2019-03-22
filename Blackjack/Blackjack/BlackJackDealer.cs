@@ -5,12 +5,12 @@ namespace Blackjack
 {
     class BlackjackDealer: CasinoDealer
     {
-        public BlackjackPlayer me;
+
         private Boolean reveal;
 
         public BlackjackDealer()
         {
-            me = new BlackjackPlayer(new BlackjackHand(), 0);
+            // me = new BlackjackPlayer(new BlackjackHand(), 0);
             Shuffle();
             reveal = false;
         }
@@ -27,7 +27,7 @@ namespace Blackjack
 
         public override String ShowHand()
         {
-            String returnValue = me.PlayerHand[0].ToString();
+            String returnValue = playerHand.Count > 0 ? playerHand[ptrCur].ToString() : "EMPTY";
 
             if(!reveal && !returnValue.Equals("EMPTY"))
                 returnValue = "??" + returnValue.Substring(returnValue.IndexOf(' '));

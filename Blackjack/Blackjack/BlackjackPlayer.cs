@@ -69,7 +69,7 @@ namespace Blackjack
         public Boolean CanSurrender { get; set; }
         public Boolean Surrendered { get; set; }
 
-        private Int16 ptrCur = 0;
+        protected Int16 ptrCur = 0;
 
         public int ValueOfHand
         {

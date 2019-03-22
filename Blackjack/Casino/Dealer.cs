@@ -10,7 +10,7 @@ namespace Blackjack
         //  >>>>>[  Implement interface IPlayer
         //          - jds | 2019.01.25
         //          -----
-        List<BlackjackHand> playerHand;
+        protected List<BlackjackHand> playerHand;
         public List<BlackjackHand> PlayerHand
         {
             get => playerHand;
@@ -26,10 +26,8 @@ namespace Blackjack
 
         public void NewHand()
         {
-            if(PlayerHand == null)
-                PlayerHand = new List<BlackjackHand>();
-
-            PlayerHand.Clear();
+            if (PlayerHand != null)
+                playerHand.Clear();
         }
 
         public void AddToHand(string Card)
@@ -47,12 +45,18 @@ namespace Blackjack
 
         #endregion
 
+
         protected Shoe shoe;
         protected List<IPlayer> players;
+        protected Int16 ptrCur = 0;
 
         public Dealer()
         {
-            playerHand = new List<BlackjackHand>();
+            playerHand = new List<BlackjackHand>
+            {
+                new BlackjackHand()
+            };
+
             players = new List<IPlayer>();
             Shuffle();
         }
