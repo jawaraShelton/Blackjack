@@ -140,6 +140,9 @@ namespace Blackjack
         public void Stand()
         {
             playerHand[ptrCur].Standing = true;
+
+            if (ptrCur < playerHand.Count - 1)
+                ptrCur++;
         }
 
         public void NoSurrender()
@@ -159,7 +162,7 @@ namespace Blackjack
             Boolean retval = false;
             Decimal Wager = playerHand[ptrCur].Wager;
 
-            if (Wager < Cash)
+            if (Wager < Cash && playerHand.Count < 4)
             {
                 playerHand.Add(new BlackjackHand(playerHand[ptrCur].SplitCard, Wager));
                 playerHand[ptrCur].Cards.Remove(playerHand[ptrCur].SplitCard);

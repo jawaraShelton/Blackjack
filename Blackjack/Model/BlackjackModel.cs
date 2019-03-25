@@ -224,16 +224,23 @@ namespace Blackjack.Application
             //          -----
             if (Commands["stand"])
             {
-                Player.Stand();
-                Dealer.PlayHand();
-
                 FlavorText.Clear();
                 ResultText.Clear();
 
                 FlavorText.Add("Player stands.");
-                View.ModelChanged(true);
+                Player.Stand();
 
-                DealerGo();
+                if (Player.CurrentHand().Standing)
+                {
+                    View.ModelChanged(true);
+
+                    Dealer.PlayHand();
+                    DealerGo();
+                }
+                else
+                {
+                    View.ModelChanged();
+                }
             }
             else
             {
