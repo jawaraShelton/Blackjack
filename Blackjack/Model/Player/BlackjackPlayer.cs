@@ -48,7 +48,7 @@ namespace Blackjack
         public void AddToHand(string Card)
         {
             if (playerHand.Count == 0)
-                playerHand.Add(new BlackjackHand());
+                playerHand.Add(new BlackjackHand(Bet));
 
             playerHand[ptrCur].Add(Card);
         }
@@ -67,6 +67,11 @@ namespace Blackjack
         public decimal Bet { get; set; }
 
         public Boolean CanSurrender { get; set; }
+        public Boolean CanSplit
+        {
+            get => playerHand[ptrCur].Cards.Count == 2 && (playerHand[0].Cards[0].Substring(0, playerHand[0].Cards[0].Length - 1).Equals(playerHand[0].Cards[1].Substring(0, playerHand[0].Cards[1].Length - 1)));
+        }
+
         public Boolean Surrendered { get; set; }
 
         protected Int16 ptrCur = 0;
@@ -149,20 +154,41 @@ namespace Blackjack
             Surrendered = true;
         }
 
-        public Boolean Split(Decimal Wager)
+        public Boolean Split()
         {
             Boolean retval = false;
+            Decimal Wager = playerHand[ptrCur].Wager;
 
             if (Wager < Cash)
             {
                 playerHand.Add(new BlackjackHand(playerHand[ptrCur].SplitCard, Wager));
                 playerHand[ptrCur].Cards.Remove(playerHand[ptrCur].SplitCard);
 
-                Cash -= Wager;
+                Cash = Cash - Wager;
                 retval = true;
             }
 
             return (retval);
+        }
+
+        public Boolean AdvanceHand()
+        {
+            Boolean retval = ((PlayerHand.Count - 1) > ptrCur);
+
+            if (retval)
+                ptrCur++;
+
+            return retval;
+        }
+
+        public Boolean RetreatHand()
+        {
+            Boolean retval = (ptrCur > 0);
+
+            if (retval)
+                ptrCur--;
+
+            return retval;
         }
     }
 }

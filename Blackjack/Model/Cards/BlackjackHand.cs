@@ -18,7 +18,18 @@ namespace Blackjack.Blackjack
 
     class BlackjackHand : Hand, IBlackjackHand
     {
-        public Decimal Wager{ get; set; }
+        private Decimal wager;
+        public Decimal Wager
+        {
+            get
+            {
+                return (wager);
+            }
+            set
+            {
+                wager = value;
+            }
+        }
 
         public Boolean Bust {
             get
@@ -54,6 +65,11 @@ namespace Blackjack.Blackjack
         public BlackjackHand(String Card, Decimal Wager)
         {
             Cards.Add(Card);
+            this.Wager = Wager;
+        }
+
+        public BlackjackHand(Decimal Wager)
+        {
             this.Wager = Wager;
         }
 

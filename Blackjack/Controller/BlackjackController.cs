@@ -36,8 +36,18 @@ namespace Blackjack.Application
                     model.DoubleDown();
                     break;
                 case "split":
-                    if (decimal.TryParse(args[1], out decimal splitWager))
-                        model.Split(splitWager);
+                    if (model.GetPlayer().CanSplit)
+                    {
+                        model.Split();
+                    }
+                    else
+                    {
+                        //  >>>>>[  Invalid Command. Notify View command failed.
+                        //          -----
+                        Console.WriteLine("Command not available. Retry.");
+
+                        retval = false;
+                    }
                     break;
                 case "surrender":
                     model.Surrender();

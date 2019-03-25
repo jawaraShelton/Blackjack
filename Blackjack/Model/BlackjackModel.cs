@@ -40,8 +40,9 @@ namespace Blackjack.Application
             this.Commands.Add("bet", true);
             this.Commands.Add("hit", false);
             this.Commands.Add("stand", false);
-            this.Commands.Add("decimal down", false);
+            this.Commands.Add("double down", false);
             this.Commands.Add("surrender", false);
+            this.Commands.Add("split", false);
             this.Commands.Add("quit", true);
         }
 
@@ -81,7 +82,19 @@ namespace Blackjack.Application
 
         public String GetPlayerHand()
         {
-            return Player.ShowHand();
+            if(!Player.ShowHand().Equals("EMPTY"))
+            {
+                StringBuilder retval = new StringBuilder();
+
+                foreach (Hand pHand in Player.playerHand)
+                    retval.Append(pHand.ToString() + " | ");
+
+                return retval.ToString().Substring(0, retval.Length - 3);
+            }
+            else
+            {
+                return Player.ShowHand();
+            }
         }
 
         public String GetDealerHand()
@@ -151,7 +164,21 @@ namespace Blackjack.Application
                 Dealer.AddToHand(Dealer.Deal());
             }
 
-            View.ModelChanged();
+            //  >>>>>[  Dealer checks for Blackjack. No blackjack?
+            //          Play proceeds as normal...
+            //          -----
+            FlavorText.Add("The dealer takes a peek at the face-down card... ");
+            if(Dealer.PlayerHand[0].IsBlackjack())
+            {
+                FlavorText.Add("Dealer has Blackjack.");
+                DealerGo(true);
+            }
+            else
+            {
+                Commands["split"] = Player.CanSplit;
+
+                View.ModelChanged();
+            }
         }
 
         public void Hit()
@@ -262,16 +289,32 @@ namespace Blackjack.Application
             }
         }
 
-        public void Split(Decimal Wager)
+        public void Split()
         {
+            //  >>>>>[  Reset availability of Split command.
+            //          -----
+            Commands["split"] = false;
+
             //  >>>>>[  Signal: Place additional chips next to the original bet 
             //          outside the betting box; point with two fingers spread 
             //          into a V formation.
             //          -----
             FlavorText.Clear();
-            FlavorText.Add("Not Supported (yet). See list of available commands.");
 
-            Player.Split(Wager);
+            if (Player.Split())
+            {
+                FlavorText.Add("You place an additional set of chips next to your original bet");
+                FlavorText.Add("and point with your fingers spread to create a 'V'.");
+
+                Player.AddToHand(Dealer.Deal());
+                Player.AdvanceHand();
+                Player.AddToHand(Dealer.Deal());
+                Player.RetreatHand();
+            }
+            else
+            {
+                FlavorText.Add("You reach for more chips, then realize you don't have enough.");
+            }
 
             View.ModelChanged();
         }
@@ -334,19 +377,24 @@ namespace Blackjack.Application
             View.ModelChanged();
         }
 
-        private void DealerGo()
+        private void DealerGo(Boolean PreserveFlavorText = false)
         {
+            if(!PreserveFlavorText)
+                FlavorText.Clear();
+
+            ResultText.Clear();
+            
             //  >>>>>[  Score the hand, and distribute payouts.
             //          -----
-            FlavorText.Clear();
-            ResultText.Clear();
-
             foreach (var pHand in Player.PlayerHand)
             {
                 if (!pHand.Bust && !Player.Surrendered)
                 {
-                    FlavorText.Add("Dealer Plays...");
-                    Dealer.PlayHand();
+                    if (!Dealer.PlayerHand[0].IsBlackjack())
+                    {
+                        FlavorText.Add("Dealer Plays...");
+                        Dealer.PlayHand();
+                    }
 
                     if (Dealer.PlayerHand[0].Value() > 21)
                     {
@@ -358,8 +406,18 @@ namespace Blackjack.Application
                     {
                         if (pHand.Value() == Dealer.PlayerHand[0].Value())
                         {
-                            ResultText.Add("Push.");
-                            Player.Push();
+                            if (Dealer.PlayerHand[0].IsBlackjack())
+                            {
+                                if (pHand.IsBlackjack())
+                                    Push();
+                                else
+                                    Player.LoseWager();
+                            }
+                            else
+                            {
+                                Push();
+                            }
+
                         }
 
                         if (pHand.Value() < Dealer.PlayerHand[0].Value())
@@ -384,6 +442,12 @@ namespace Blackjack.Application
 
             View.ModelChanged(true);
             SetupNewHand();
+
+            void Push()
+            {
+                ResultText.Add("Push.");
+                Player.Push();
+            }
         }
     }
 }
