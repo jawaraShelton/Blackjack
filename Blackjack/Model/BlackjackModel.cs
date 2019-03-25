@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+
+using Blackjack.Blackjack;
 
 namespace Blackjack.Application
 {
@@ -86,8 +86,13 @@ namespace Blackjack.Application
             {
                 StringBuilder retval = new StringBuilder();
 
-                foreach (Hand pHand in Player.playerHand)
+                foreach (BlackjackHand pHand in Player.playerHand)
+                {
+                    if (Player.playerHand.Count > 1 && pHand.ToString().Equals(Player.CurrentHand().ToString()))
+                        retval.Append(">> ");
+
                     retval.Append(pHand.ToString() + " | ");
+                }
 
                 return retval.ToString().Substring(0, retval.Length - 3);
             }
