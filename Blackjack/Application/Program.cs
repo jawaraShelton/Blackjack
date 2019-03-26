@@ -18,7 +18,7 @@ namespace Blackjack.Application
 
             BlackjackModel Model = new BlackjackModel(Dealer, Player);
             BlackjackController Controller = new BlackjackController(Model);
-            BlackjackView View = new BlackjackView(Model, Controller);
+            BlackjackConsoleView View = new BlackjackConsoleView(Model, Controller);
 
             Model.LinkView(View);
             View.ModelChanged();

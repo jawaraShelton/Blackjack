@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace Blackjack.Application
 {
-    class BlackjackView : IView
+    class BlackjackConsoleViewAddressed : IView
     {
         private BlackjackModel Model;
         private BlackjackController Controller;
 
-        public BlackjackView()
+        public BlackjackConsoleViewAddressed()
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
         }
 
-        public BlackjackView(BlackjackModel Model, BlackjackController Controller)
+        public BlackjackConsoleViewAddressed(BlackjackModel Model, BlackjackController Controller)
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
@@ -49,6 +49,7 @@ namespace Blackjack.Application
 
         public void Show(Boolean viewOnly)
         {
+
             if (Model.GetFlavorText().Count() > 0)
             {
                 Console.WriteLine();
@@ -56,13 +57,22 @@ namespace Blackjack.Application
                     Console.WriteLine(str);
             }
 
+            Console.Clear();
+            Console.SetCursorPosition(0, 0);
             Console.WriteLine("--------------");
+            Console.SetCursorPosition(0, 1);
             Console.WriteLine("Dealer's Hand : {0}", Model.GetDealerHand());
+            Console.SetCursorPosition(0, 2);
             Console.WriteLine("Player's Hand : {0}", Model.GetPlayerHand());
+            Console.SetCursorPosition(0, 3);
             Console.WriteLine("Current Wager : {0}", Model.GetWager().ToString());
+            Console.SetCursorPosition(0, 4);
             Console.WriteLine("-----");
+            Console.SetCursorPosition(0, 5);
             Console.WriteLine("Cash Available: {0}", Model.GetCashAvailable().ToString());
+            Console.SetCursorPosition(0, 6);
             Console.WriteLine("--------------");
+            Console.SetCursorPosition(0, 8);
 
             if (Model.GetResultText().Count() > 0)
             {

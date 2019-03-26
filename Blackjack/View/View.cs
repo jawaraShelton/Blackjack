@@ -8,6 +8,6 @@ namespace Blackjack
 {
     public interface IView
     {
-        void ModelChanged();
+        void ModelChanged(Boolean viewOnly = false);
     }
 }
