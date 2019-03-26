@@ -6,17 +6,17 @@ using Mindmagma.Curses;
 
 namespace Blackjack.Application
 {
-    class BlackjackDotnetCursesView : IView
+    class BlackjackCursesView : IView
     {
         private BlackjackModel Model;
         private BlackjackController Controller;
 
-        public BlackjackDotnetCursesView()
+        public BlackjackCursesView()
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
         }
 
-        public BlackjackDotnetCursesView(BlackjackModel Model, BlackjackController Controller)
+        public BlackjackCursesView(BlackjackModel Model, BlackjackController Controller)
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
@@ -59,14 +59,22 @@ namespace Blackjack.Application
                     Console.WriteLine(str);
             }
 
+            Console.Clear();
+            Console.SetCursorPosition(0, 0);
             Console.WriteLine("--------------");
+            Console.SetCursorPosition(0, 1);
             Console.WriteLine("Dealer's Hand : {0}", Model.GetDealerHand());
+            Console.SetCursorPosition(0, 2);
             Console.WriteLine("Player's Hand : {0}", Model.GetPlayerHand());
+            Console.SetCursorPosition(0, 3);
             Console.WriteLine("Current Wager : {0}", Model.GetWager().ToString());
+            Console.SetCursorPosition(0, 4);
             Console.WriteLine("-----");
+            Console.SetCursorPosition(0, 5);
             Console.WriteLine("Cash Available: {0}", Model.GetCashAvailable().ToString());
+            Console.SetCursorPosition(0, 6);
             Console.WriteLine("--------------");
-
+            Console.SetCursorPosition(0, 8);
 
             if (Model.GetResultText().Count() > 0)
             {
