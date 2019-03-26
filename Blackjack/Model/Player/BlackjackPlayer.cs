@@ -64,7 +64,23 @@ namespace Blackjack
         //          - jds | 2019.01.25
         //          -----
         public decimal Cash { get; set; }
-        public decimal Bet { get; set; }
+
+        private decimal bet;
+        public decimal Bet {
+            get
+            {
+                return playerHand.Count > 0 ? playerHand[ptrCur].Wager : bet;
+            }
+            set
+            {
+                if(playerHand.Count > 0)
+                    playerHand[ptrCur].Wager = value;
+                else
+                {
+                    bet = value;
+                }
+            }
+        }
 
         public Boolean CanSurrender { get; set; }
         public Boolean CanSplit

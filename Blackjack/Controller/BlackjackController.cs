@@ -32,7 +32,7 @@ namespace Blackjack.Application
                 case "stand":
                     model.Stand();
                     break;
-                case "decimal":
+                case "double":
                     model.DoubleDown();
                     break;
                 case "split":
