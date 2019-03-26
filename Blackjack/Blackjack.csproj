@@ -62,7 +62,6 @@
   <ItemGroup>
     <Compile Include="Model\BlackjackModel.cs" />
     <Compile Include="Controller\BlackjackController.cs" />
-    <Compile Include="View\BlackjackConsoleViewAddressed.cs" />
     <Compile Include="View\BlackjackConsoleView.cs" />
     <Compile Include="Application\Program.cs" />
     <Compile Include="Model\Dealer\BlackjackDealer.cs" />
