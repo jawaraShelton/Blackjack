@@ -20,8 +20,6 @@ namespace Blackjack.Application
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-            NCurses.InitScreen();
-
             this.Model = Model;
             this.Controller = Controller;
         }
