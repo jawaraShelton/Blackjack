@@ -24,8 +24,26 @@ namespace Blackjack.Application
                 switch (args[0].Substring(0, 1))
                 {
                     case "b":
-                        if (decimal.TryParse(args[1], out decimal bet))
-                            model.Bet(bet);
+                        try
+                        {
+                            if (decimal.TryParse(args[1], out decimal bet))
+                            {
+                                if (bet > 0)
+                                {
+                                    model.Bet(bet);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Your bet must be > $0.00.");
+                                    retval = false;
+                                }
+                            }
+                        }
+                        catch
+                        {
+                            Console.WriteLine("Your bet must be > $0.00.");
+                            retval = false;
+                        }
                         break;
                     case "d":
                         model.DoubleDown();
