@@ -204,13 +204,6 @@ namespace Blackjack.Application
 
                 FlavorText.Add("The Dealer slides you a card.");
 
-                //  >>>>>[  Hand still ends and goes to payouts ignoring any remaining 
-                //          hands the player has due to a split. The problem is in 
-                //          BlackjackModel.cs Hit(). If the player goes bust after a 
-                //          card is dealt the game immediately jumps to resolve / payout 
-                //          the hand. This needs to go through the player instead--
-                //          verify if the hand is truly done first.
-                //          -----
                 if (Player.CurrentHand().Bust)
                 {
                     ResultText.Add("And the Player goes bust...");
