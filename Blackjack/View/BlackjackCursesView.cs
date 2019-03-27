@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
-
-using Mindmagma.Curses;
+using System.Collections.Generic;
 
 
 namespace Blackjack.Application
@@ -10,19 +9,27 @@ namespace Blackjack.Application
     {
         private BlackjackModel Model;
         private BlackjackController Controller;
+        private List<String> OutputText;
 
         public BlackjackCursesView()
         {
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            SetUsUp();
         }
 
         public BlackjackCursesView(BlackjackModel Model, BlackjackController Controller)
         {
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
-
             this.Model = Model;
             this.Controller = Controller;
+
+            SetUsUp();
         }
+
+        private void SetUsUp()
+        {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            OutputText = new List<String>();
+        }
+
 
         public void LinkModel(BlackjackModel Model)
         {
@@ -49,40 +56,40 @@ namespace Blackjack.Application
 
         public void Show(Boolean viewOnly)
         {
+            OverWrite(0, 0, new string('-', 80), ConsoleColor.Gray);
 
-            if (Model.GetFlavorText().Count() > 0)
-            {
-                Console.WriteLine();
-                foreach (String str in Model.GetFlavorText())
-                    Console.WriteLine(str);
-            }
+            //  >>>>>[  Display game data.
+            //          -----
+            OverWrite(0, 1, "Dealer's Hand : " +  Model.GetDealerHand());
+            OverWrite(0, 2, "Player's Hand : " +  Model.GetPlayerHand());
+            OverWrite(0, 3, "Current Wager : " +  Model.GetWager().ToString("C"));
+            OverWrite(0, 4, "-----");
+            OverWrite(0, 5, "Cash Available: " +  Model.GetCashAvailable().ToString("C"));
 
-            Console.Clear();
-            Console.SetCursorPosition(0, 0);
-            Console.WriteLine("--------------");
-            Console.SetCursorPosition(0, 1);
-            Console.WriteLine("Dealer's Hand : {0}", Model.GetDealerHand());
-            Console.SetCursorPosition(0, 2);
-            Console.WriteLine("Player's Hand : {0}", Model.GetPlayerHand());
-            Console.SetCursorPosition(0, 3);
-            Console.WriteLine("Current Wager : {0}", Model.GetWager().ToString());
-            Console.SetCursorPosition(0, 4);
-            Console.WriteLine("-----");
-            Console.SetCursorPosition(0, 5);
-            Console.WriteLine("Cash Available: {0}", Model.GetCashAvailable().ToString());
-            Console.SetCursorPosition(0, 6);
-            Console.WriteLine("--------------");
-            Console.SetCursorPosition(0, 8);
+            //  >>>>>[  Draw the "bounding box" for the Flavor and Result text output.
+            //          -----
+            OverWrite(0, 6, new string('-', 80), ConsoleColor.Gray);
+            OverWrite(0, 25, new string('-', 80), ConsoleColor.Gray);
 
-            if (Model.GetResultText().Count() > 0)
-            {
-                Console.WriteLine();
-                foreach (String str in Model.GetResultText())
-                    Console.WriteLine("    {0}", str);
-            }
+            //  >>>>>[  Display the flavor and result text
+            //          -----
+            foreach (String str in Model.GetFlavorText())
+                OutputText.Add(str);
+            
+            foreach (String str in Model.GetResultText())
+                OutputText.Add(str);
 
-            Console.WriteLine();
-            if(!viewOnly)
+            while(OutputText.Count > 18)
+                OutputText.RemoveAt(0);
+
+            int Y = 7;
+            foreach (String str in OutputText)
+                OverWrite(0, Y++, "  " + str);
+
+
+            //  >>>>>[  Display commands and get user input (if !viewOnly)
+            //          -----
+            if (!viewOnly)
                 GetCommand();
         }
 
@@ -93,12 +100,24 @@ namespace Blackjack.Application
             if (Model != null)
                 do
                 {
-                    Console.WriteLine("Available Commands: {0}", Model.AvailableCommands());
-                    Console.Write("Ready, {0}: ", Model.GetPlayer().PlayerName);
+                    OverWrite(0, 26, "Available Commands: " + Model.AvailableCommands(), ConsoleColor.Blue);
+                    OverWrite(0, 27, "Ready, " + Model.GetPlayer().PlayerName + ": ", ConsoleColor.Green);
+
                     command = Console.ReadLine().ToLower();
                 } while (!Controller.Execute(command));
             else
                 throw new InvalidOperationException("The View lacks a corresponding Controller.");
+        }
+
+        private void OverWrite(int X, int Y, String Output, ConsoleColor Color = ConsoleColor.White, int WipeLength = 96)
+        {
+            Console.SetCursorPosition(X, Y);
+            Console.Write(new string(' ', WipeLength));
+            Console.SetCursorPosition(X, Y);
+
+            Console.ForegroundColor = Color;
+            Console.Write(Output);
+            Console.ResetColor();
         }
     }
 }

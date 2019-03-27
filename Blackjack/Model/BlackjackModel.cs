@@ -127,17 +127,25 @@ namespace Blackjack.Application
 
         public void Bet(decimal amount)
         {
-            if (amount <= Player.Cash)
+            if(amount > 0)
             {
-                Player.Bet = amount;
-                Player.Cash -= amount;
+                if (amount <= Player.Cash)
+                {
+                    Player.Bet = amount;
+                    Player.Cash -= amount;
 
-                List<string> keyList = new List<string>(Commands.Keys);
-                foreach (string str in keyList)
-                    Commands[str] = (!str.Equals("bet"));
+                    List<string> keyList = new List<string>(Commands.Keys);
+                    foreach (string str in keyList)
+                        Commands[str] = (!str.Equals("bet"));
+                }
+
+                Deal();
             }
-
-            Deal();
+            else
+            {
+                ResultText.Add("Bets must be whole dollar values higher than $0.00");
+                View.ModelChanged();
+            }
         }
 
         private void ResetCommandAvailability()
@@ -171,6 +179,9 @@ namespace Blackjack.Application
                 Player.AddToHand(Dealer.Deal());
                 Dealer.AddToHand(Dealer.Deal());
             }
+
+            FlavorText.Clear();
+            ResultText.Clear();
 
             //  >>>>>[  Dealer checks for Blackjack. No blackjack?
             //          Play proceeds as normal...
@@ -447,6 +458,7 @@ namespace Blackjack.Application
                         if (pHand.Value() < Dealer.PlayerHand[0].Value())
                         {
                             ResultText.Add(Player.PlayerName + " loses.");
+
                             Player.LoseWager();
                         }
 
@@ -463,6 +475,10 @@ namespace Blackjack.Application
                     Player.LoseWager();
                 }
             }
+
+            ResultText.Add("  Dealer Hand: " + GetDealerHand());
+            ResultText.Add("  Player Hand: " + GetPlayerHand());
+            ResultText.Add(" ");
 
             View.ModelChanged(true);
             SetupNewHand();
