@@ -214,9 +214,17 @@ namespace Blackjack.Application
                 if (Player.CurrentHand().Bust)
                 {
                     ResultText.Add("And the Player goes bust...");
-                    View.ModelChanged(true);
 
-                    DealerGo();
+                    Player.AdvanceHand();
+                    if (Player.CurrentHand().Bust)
+                    {
+                        View.ModelChanged(true);
+                        DealerGo();
+                    }
+                    else
+                    {
+                        View.ModelChanged();
+                    }
                 }
                 else
                 {
