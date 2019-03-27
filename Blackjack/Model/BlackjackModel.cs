@@ -57,7 +57,10 @@ namespace Blackjack.Application
 
             foreach (KeyValuePair<String, Boolean> d in Commands)
                 if (d.Value)
-                    outStr.Append(d.Key + " | ");
+                    if(d.Key.Substring(0, 1).Equals("s"))              
+                        outStr.Append("[" + d.Key.Substring(0,2) + "]" + d.Key.Substring(2) + " | ");
+                    else
+                        outStr.Append("[" + d.Key.Substring(0, 1) + "]" + d.Key.Substring(1) + " | ");
 
             return outStr.ToString().Substring(0, outStr.Length - 3).Trim();
         }
