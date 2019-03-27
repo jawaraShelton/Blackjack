@@ -57,7 +57,10 @@ namespace Blackjack.Application
 
             foreach (KeyValuePair<String, Boolean> d in Commands)
                 if (d.Value)
-                    outStr.Append(d.Key + " | ");
+                    if(d.Key.Substring(0, 1).Equals("s"))              
+                        outStr.Append("[" + d.Key.Substring(0,2) + "]" + d.Key.Substring(2) + " | ");
+                    else
+                        outStr.Append("[" + d.Key.Substring(0, 1) + "]" + d.Key.Substring(1) + " | ");
 
             return outStr.ToString().Substring(0, outStr.Length - 3).Trim();
         }
@@ -204,19 +207,20 @@ namespace Blackjack.Application
 
                 FlavorText.Add("The Dealer slides you a card.");
 
-                //  >>>>>[  Hand still ends and goes to payouts ignoring any remaining 
-                //          hands the player has due to a split. The problem is in 
-                //          BlackjackModel.cs Hit(). If the player goes bust after a 
-                //          card is dealt the game immediately jumps to resolve / payout 
-                //          the hand. This needs to go through the player instead--
-                //          verify if the hand is truly done first.
-                //          -----
                 if (Player.CurrentHand().Bust)
                 {
                     ResultText.Add("And the Player goes bust...");
-                    View.ModelChanged(true);
 
-                    DealerGo();
+                    Player.AdvanceHand();
+                    if (Player.CurrentHand().Bust)
+                    {
+                        View.ModelChanged(true);
+                        DealerGo();
+                    }
+                    else
+                    {
+                        View.ModelChanged();
+                    }
                 }
                 else
                 {

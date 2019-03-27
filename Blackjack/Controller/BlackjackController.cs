@@ -18,53 +18,87 @@ namespace Blackjack.Application
         public bool Execute(string command)
         {
             bool retval = true;
-            string[] args = command.Split(' ');
-
-            switch (args[0])
+            String[] args = command.Split(' ');
+            if (!args[0].Equals(""))
             {
-                case "bet":
-                    if (decimal.TryParse(args[1], out decimal bet))
-                        model.Bet(bet);
-                    break;
-                case "hit":
-                    model.Hit();
-                    break;
-                case "stand":
-                    model.Stand();
-                    break;
-                case "double":
-                    model.DoubleDown();
-                    break;
-                case "split":
-                    if (model.GetPlayer().CanSplit)
-                    {
-                        model.Split();
-                    }
-                    else
-                    {
-                        //  >>>>>[  Invalid Command. Notify View command failed.
-                        //          -----
-                        Console.WriteLine("Command not available. Retry.");
-
-                        retval = false;
-                    }
-                    break;
-                case "surrender":
-                    model.Surrender();
-                    break;
-                case "quit":
-                    Environment.Exit(0);
-                    break;
-                default:
-                    //  >>>>>[  Invalid Command. Notify View command failed.
-                    //          -----
-                    Console.WriteLine("Command invalid. Retry.");
-
-                    retval = false;
-                    break;
+                switch (args[0].Substring(0, 1))
+                {
+                    case "b":
+                        try
+                        {
+                            if (decimal.TryParse(args[1], out decimal bet))
+                            {
+                                if (bet > 0)
+                                {
+                                    model.Bet(bet);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Your bet must be > $0.00.");
+                                    retval = false;
+                                }
+                            }
+                        }
+                        catch
+                        {
+                            Console.WriteLine("Your bet must be > $0.00.");
+                            retval = false;
+                        }
+                        break;
+                    case "d":
+                        model.DoubleDown();
+                        break;
+                    case "h":
+                        model.Hit();
+                        break;
+                    case "q":
+                        Environment.Exit(0);
+                        break;
+                    case "s":
+                        switch (args[0].Substring(0, 2))
+                        {
+                            case "sp":
+                                if (model.GetPlayer().CanSplit)
+                                {
+                                    model.Split();
+                                }
+                                else
+                                {
+                                    ReturnError();
+                                    retval = false;
+                                }
+                                break;
+                            case "st":
+                                model.Stand();
+                                break;
+                            case "su":
+                                model.Surrender();
+                                break;
+                            default:
+                                ReturnError();
+                                break;
+                        }
+                        break;
+                    default:
+                        ReturnError();
+                        break;
+                }
+            }
+            else
+            {
+                ReturnError();
             }
 
             return retval;
+
+            void ReturnError()
+            {
+                //  >>>>>[  Invalid Command. Notify View command failed.
+                //          -----
+                Console.WriteLine("Command invalid. Retry.");
+
+                retval = false;
+            }
         }
     }
 }

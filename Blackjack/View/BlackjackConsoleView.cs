@@ -60,9 +60,9 @@ namespace Blackjack.Application
             Console.WriteLine("--------------");
             Console.WriteLine("Dealer's Hand : {0}", Model.GetDealerHand());
             Console.WriteLine("Player's Hand : {0}", Model.GetPlayerHand());
-            Console.WriteLine("Current Wager : {0}", Model.GetWager().ToString());
+            Console.WriteLine("Current Wager : {0}", Model.GetWager().ToString("C"));
             Console.WriteLine("-----");
-            Console.WriteLine("Cash Available: {0}", Model.GetCashAvailable().ToString());
+            Console.WriteLine("Cash Available: {0}", Model.GetCashAvailable().ToString("C"));
             Console.WriteLine("--------------");
 
 
