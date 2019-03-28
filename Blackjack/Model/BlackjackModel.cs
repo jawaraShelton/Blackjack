@@ -429,6 +429,7 @@ namespace Blackjack.Application
                     {
                         FlavorText.Add("Dealer Plays...");
                         Dealer.PlayHand();
+                        View.ModelChanged(true);
                     }
 
                     if (Dealer.PlayerHand[0].Value() > 21)

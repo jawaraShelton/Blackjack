@@ -100,7 +100,6 @@ namespace Blackjack.Application
             foreach (String str in OutputText)
                 OverWrite(0, Y++, "  " + str, ConsoleColor.DarkGray);
 
-
             //  >>>>>[  Display commands and get user input (if !viewOnly)
             //          -----
             if (!viewOnly)
