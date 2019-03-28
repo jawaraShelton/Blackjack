@@ -186,10 +186,12 @@ namespace Blackjack.Application
             //  >>>>>[  Dealer checks for Blackjack. No blackjack?
             //          Play proceeds as normal...
             //          -----
-            FlavorText.Add("The dealer takes a peek at the face-down card... ");
+
+            FlavorText.Add("+----");
+            FlavorText.Add("The dealer takes a peek at her face-down card... ");
             if(Dealer.PlayerHand[0].IsBlackjack())
             {
-                FlavorText.Add("Dealer has Blackjack.");
+                FlavorText.Add("Dealer has Blackjack!");
                 DealerGo(true);
             }
             else
@@ -418,20 +420,24 @@ namespace Blackjack.Application
                 FlavorText.Clear();
 
             ResultText.Clear();
-            
+
+            //  >>>>>[  Play the Dealer's hand...
+            //          -----
+            if (!Dealer.PlayerHand[0].IsBlackjack())
+            {
+                FlavorText.Add("Dealer Plays...");
+                Dealer.PlayHand();
+                FlavorText.Add("Dealer's Hand:  " + Dealer.PlayerHand[0].ToString());
+                View.ModelChanged(true);
+                FlavorText.Clear();
+            }
+
             //  >>>>>[  Score the hand, and distribute payouts.
             //          -----
             foreach (var pHand in Player.PlayerHand)
             {
                 if (!pHand.Bust && !Player.Surrendered)
                 {
-                    if (!Dealer.PlayerHand[0].IsBlackjack())
-                    {
-                        FlavorText.Add("Dealer Plays...");
-                        Dealer.PlayHand();
-                        View.ModelChanged(true);
-                    }
-
                     if (Dealer.PlayerHand[0].Value() > 21)
                     {
                         ResultText.Add("Dealer Busts!");
@@ -453,19 +459,18 @@ namespace Blackjack.Application
                             {
                                 Push();
                             }
-
                         }
 
                         if (pHand.Value() < Dealer.PlayerHand[0].Value())
                         {
-                            ResultText.Add(Player.PlayerName + " loses.");
+                            ResultText.Add(Player.PlayerName + " loses hand [" + pHand.ToString() + "].");
 
                             Player.LoseWager();
                         }
 
                         if (pHand.Value() > Dealer.PlayerHand[0].Value())
                         {
-                            ResultText.Add(Player.PlayerName + " WINS!");
+                            ResultText.Add(Player.PlayerName + " WINS hand [" + pHand.ToString() + "]!");
                             Player.Win(pHand.IsBlackjack() ? Player.Bet + (Player.Bet * 1.5m) : Player.Bet * 2);
                         }
                     }
@@ -477,9 +482,7 @@ namespace Blackjack.Application
                 }
             }
 
-            ResultText.Add("  Dealer Hand: " + GetDealerHand());
-            ResultText.Add("  Player Hand: " + GetPlayerHand());
-            ResultText.Add(" ");
+            ResultText.Add("----+");
 
             View.ModelChanged(true);
             SetupNewHand();
