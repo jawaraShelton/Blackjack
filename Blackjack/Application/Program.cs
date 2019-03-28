@@ -1,11 +1,5 @@
 ﻿using Blackjack.Blackjack;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Blackjack.Application
 {
     class Program
@@ -18,6 +12,13 @@ namespace Blackjack.Application
 
             BlackjackModel Model = new BlackjackModel(Dealer, Player);
             BlackjackController Controller = new BlackjackController(Model);
+
+            //  >>>>>[  To use the straight Console/CLI View
+            //          -----
+            //          BlackjackConsoleView View = new BlackjackConsoleView(Model, Controller);
+
+            //  >>>>>[  To use the "Fake-Curses" View
+            //          -----
             BlackjackCursesView View = new BlackjackCursesView(Model, Controller);
             
             Model.LinkView(View);

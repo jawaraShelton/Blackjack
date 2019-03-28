@@ -56,16 +56,25 @@ namespace Blackjack.Application
 
         public void Show(Boolean viewOnly)
         {
-            //  >>>>>[  Display game data.
+            //  >>>>>[  Display the Dealer's hand. Nothing really special 
+            //          needs to be done...
             //          -----
             OverWrite(0, 2, "Dealer's Hand : " +  Model.GetDealerHand(), ConsoleColor.White, 47);
+
+            //  >>>>>[  Display the Player's hand. The player has the ability
+            //          to split their hand, so each individual hand must be
+            //          displayed. 
+            //
+            //          Split hands not currently being played will be gray 
+            //          in color. The active hand will be White.
+            //          -----
             OverWrite(48, 2, "Player's Hand : ", ConsoleColor.White, 47);
             if (!Model.GetPlayerHand().Equals("EMPTY"))
             {
                 int y = 2;
                 foreach (string hand in Model.GetPlayerHand().Split('|'))
                     OverWrite(64, y++, hand.Trim().Substring(0, 2).Equals(">>") ? hand.Trim().Substring(3) : hand.Trim(),
-                        hand.Trim().Substring(0, 2).Equals(">>") ? ConsoleColor.Green : ConsoleColor.White, 31);
+                        hand.Trim().Substring(0, 2).Equals(">>") ? ConsoleColor.White : Model.GetPlayerHand().Split('|').Count() > 1 ? ConsoleColor.DarkGray : ConsoleColor.White, 31);
             }
             else
             {
@@ -75,8 +84,15 @@ namespace Blackjack.Application
                 OverWrite(64, 2, Model.GetPlayerHand(), ConsoleColor.White, 31);
             }
 
+            //  >>>>>[  Display the current wager.
+            //          -----
             OverWrite(48, 1, "Current Wager : " +  Model.GetWager().ToString("C"), ConsoleColor.White, ("Current Wager : " + Model.GetWager().ToString("C")).Length + 4);
-            OverWrite(88, 1, "Cash Available: " +  Model.GetCashAvailable().ToString("C"), ConsoleColor.White, ("Cash Available: " + Model.GetWager().ToString("C")).Length + 4);
+            
+            //  >>>>>[  Display available cash. 
+            //          If cash available = 0 then color should be red.
+            //          -----
+            OverWrite(88, 1, "Cash Available: " , ConsoleColor.White, ("Cash Available: ").Length);
+            OverWrite(105, 1, Model.GetCashAvailable().ToString("C"), Model.GetCashAvailable() == 0 ? ConsoleColor.Red : ConsoleColor.White, 14); 
 
             //  >>>>>[  Draw the "crossbars" bounding the various sections of the screen.
             //          -----
