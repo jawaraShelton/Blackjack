@@ -56,20 +56,34 @@ namespace Blackjack.Application
 
         public void Show(Boolean viewOnly)
         {
-            OverWrite(0, 0, new string('-', 80), ConsoleColor.Gray);
-
             //  >>>>>[  Display game data.
             //          -----
-            OverWrite(0, 1, "Dealer's Hand : " +  Model.GetDealerHand());
-            OverWrite(0, 2, "Player's Hand : " +  Model.GetPlayerHand());
-            OverWrite(0, 3, "Current Wager : " +  Model.GetWager().ToString("C"));
-            OverWrite(0, 4, "-----");
-            OverWrite(0, 5, "Cash Available: " +  Model.GetCashAvailable().ToString("C"));
+            OverWrite(0, 2, "Dealer's Hand : " +  Model.GetDealerHand(), ConsoleColor.White, 47);
+            OverWrite(48, 2, "Player's Hand : ", ConsoleColor.White, 47);
+            if (!Model.GetPlayerHand().Equals("EMPTY"))
+            {
+                int y = 2;
+                foreach (string hand in Model.GetPlayerHand().Split('|'))
+                    OverWrite(64, y++, hand.Trim().Substring(0, 2).Equals(">>") ? hand.Trim().Substring(3) : hand.Trim(),
+                        hand.Trim().Substring(0, 2).Equals(">>") ? ConsoleColor.Green : ConsoleColor.White, 31);
+            }
+            else
+            {
+                for (int y = 2; y < 6; y++)
+                    OverWrite(64, y, "", ConsoleColor.White, 31);
 
-            //  >>>>>[  Draw the "bounding box" for the Flavor and Result text output.
+                OverWrite(64, 2, Model.GetPlayerHand(), ConsoleColor.White, 31);
+            }
+
+            OverWrite(48, 1, "Current Wager : " +  Model.GetWager().ToString("C"), ConsoleColor.White, ("Current Wager : " + Model.GetWager().ToString("C")).Length + 4);
+            OverWrite(88, 1, "Cash Available: " +  Model.GetCashAvailable().ToString("C"), ConsoleColor.White, ("Cash Available: " + Model.GetWager().ToString("C")).Length + 4);
+
+            //  >>>>>[  Draw the "crossbars" bounding the various sections of the screen.
             //          -----
-            OverWrite(0, 6, new string('-', 80), ConsoleColor.Gray);
-            OverWrite(0, 25, new string('-', 80), ConsoleColor.Gray);
+            int width = 118;
+            OverWrite(0, 0, new string('-', width), ConsoleColor.Gray);
+            OverWrite(0, 6, new string('-', width), ConsoleColor.Gray);
+            OverWrite(0, 25, new string('-', width), ConsoleColor.Gray);
 
             //  >>>>>[  Display the flavor and result text
             //          -----
@@ -84,7 +98,7 @@ namespace Blackjack.Application
 
             int Y = 7;
             foreach (String str in OutputText)
-                OverWrite(0, Y++, "  " + str);
+                OverWrite(0, Y++, "  " + str, ConsoleColor.DarkGray);
 
 
             //  >>>>>[  Display commands and get user input (if !viewOnly)
