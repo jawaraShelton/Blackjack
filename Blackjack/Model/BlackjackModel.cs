@@ -222,7 +222,7 @@ namespace Blackjack.Application
 
                 if (Player.CurrentHand().Bust)
                 {
-                    ResultText.Add("And the Player goes bust...");
+                    ResultText.Add("Player's Hand: " + Player.CurrentHand().ToString() + " BUSTS!");
 
                     Player.AdvanceHand();
                     if (Player.CurrentHand().Bust)
@@ -427,7 +427,7 @@ namespace Blackjack.Application
             {
                 FlavorText.Add("Dealer Plays...");
                 Dealer.PlayHand();
-                FlavorText.Add("Dealer's Hand:  " + Dealer.PlayerHand[0].ToString());
+                FlavorText.Add("Dealer's Hand: " + Dealer.PlayerHand[0].ToString() + (Dealer.PlayerHand[0].Value() > 21 ? " BUSTS!" : ""));
                 View.ModelChanged(true);
                 FlavorText.Clear();
             }
@@ -440,9 +440,11 @@ namespace Blackjack.Application
                 {
                     if (Dealer.PlayerHand[0].Value() > 21)
                     {
-                        ResultText.Add("Dealer Busts!");
-                        ResultText.Add(Player.PlayerName + " WINS!");
-                        Player.Win(pHand.IsBlackjack() ? pHand.Wager + (pHand.Wager * 1.5m) : pHand.Wager * 2);
+                        Decimal winnings = pHand.IsBlackjack() ? pHand.Wager + (pHand.Wager * 1.5m) : pHand.Wager * 2;
+
+                        ResultText.Add("Player's Hand: " + pHand.ToString() + " WINS " + winnings.ToString("C") + "!");
+
+                        Player.Win(winnings);
                     }
                     else
                     {
@@ -451,33 +453,37 @@ namespace Blackjack.Application
                             if (Dealer.PlayerHand[0].IsBlackjack())
                             {
                                 if (pHand.IsBlackjack())
-                                    Push();
+                                    Push(pHand.ToString());
                                 else
+                                {
+                                    ResultText.Add("Player's Hand: " + pHand.ToString() + " LOSES.");
                                     Player.LoseWager();
+                                }
+                                    
                             }
                             else
                             {
-                                Push();
+                                Push(pHand.ToString());
                             }
                         }
 
                         if (pHand.Value() < Dealer.PlayerHand[0].Value())
                         {
-                            ResultText.Add(Player.PlayerName + " loses hand [" + pHand.ToString() + "].");
-
+                            ResultText.Add("Player's Hand: " + pHand.ToString() + " LOSES.");
                             Player.LoseWager();
                         }
 
                         if (pHand.Value() > Dealer.PlayerHand[0].Value())
                         {
-                            ResultText.Add(Player.PlayerName + " WINS hand [" + pHand.ToString() + "]!");
-                            Player.Win(pHand.IsBlackjack() ? Player.Bet + (Player.Bet * 1.5m) : Player.Bet * 2);
+                            Decimal winnings = pHand.IsBlackjack() ? Player.Bet + (Player.Bet * 1.5m) : Player.Bet * 2;
+                            ResultText.Add("Player's Hand: " + pHand.ToString() + " WINS " + winnings.ToString("C") + "!");
+                            Player.Win(winnings);
                         }
                     }
                 }
                 else
                 {
-                    ResultText.Add(Player.PlayerName + (Player.Surrendered ? " surrendered." : " loses."));
+                    ResultText.Add("Player's Hand: " + pHand.ToString() + (Player.Surrendered ? " was surrendered." : (pHand.Bust ? " BUSTS!" : " loses.")));
                     Player.LoseWager();
                 }
             }
@@ -487,9 +493,10 @@ namespace Blackjack.Application
             View.ModelChanged(true);
             SetupNewHand();
 
-            void Push()
+            void Push(String pHand)
             {
-                ResultText.Add("Push.");
+                ResultText.Add("Dealer's Hand: " + Dealer.PlayerHand[0].ToString());
+                ResultText.Add("Player's Hand: " + pHand.ToString() + " is a push.");
                 Player.Push();
             }
         }
