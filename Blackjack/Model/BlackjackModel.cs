@@ -495,7 +495,10 @@ namespace Blackjack.Application
 
             void Push(String pHand)
             {
-                ResultText.Add("Dealer's Hand: " + Dealer.PlayerHand[0].ToString());
+                //  >>>>>[  Dealer's hand should be displayed before reaching this point.
+                //          Preserving the line justincase.
+                //          -----
+                //  ResultText.Add("Dealer's Hand: " + Dealer.PlayerHand[0].ToString());
                 ResultText.Add("Player's Hand: " + pHand.ToString() + " is a push.");
                 Player.Push();
             }
