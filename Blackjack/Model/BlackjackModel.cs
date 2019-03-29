@@ -421,16 +421,24 @@ namespace Blackjack.Application
 
             ResultText.Clear();
 
+            //  >>>>>[  Determine if the player has any hands
+            //          in play as a pre-condition.
+            //          -----
+            Boolean PlayerIsBust = true;
+            foreach(BlackjackHand pHand in Player.PlayerHand)
+                PlayerIsBust = PlayerIsBust && pHand.Bust;
+
             //  >>>>>[  Play the Dealer's hand...
             //          -----
-            if (!Dealer.PlayerHand[0].IsBlackjack())
+            if (!PlayerIsBust && !Dealer.PlayerHand[0].IsBlackjack())
             {
                 FlavorText.Add("Dealer Plays...");
                 Dealer.PlayHand();
-                FlavorText.Add("Dealer's Hand: " + Dealer.PlayerHand[0].ToString() + (Dealer.PlayerHand[0].Value() > 21 ? " BUSTS!" : ""));
-                View.ModelChanged(true);
-                FlavorText.Clear();
             }
+
+            FlavorText.Add("Dealer's Hand: " + Dealer.PlayerHand[0].ToString() + (Dealer.PlayerHand[0].Value() > 21 ? " BUSTS!" : ""));
+            View.ModelChanged(true);
+            FlavorText.Clear();
 
             //  >>>>>[  Score the hand, and distribute payouts.
             //          -----
