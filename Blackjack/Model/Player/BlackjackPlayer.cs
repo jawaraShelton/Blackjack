@@ -82,7 +82,12 @@ namespace Blackjack
             }
         }
 
-        public Boolean CanSurrender { get; set; }
+        private Boolean canSurrender = true;
+        public Boolean CanSurrender {
+            get => canSurrender;
+            set => canSurrender = value;
+        }
+
         public Boolean CanSplit
         {
             get => playerHand[ptrCur].Cards.Count == 2 && (playerHand[0].Cards[0].Substring(0, playerHand[0].Cards[0].Length - 1).Equals(playerHand[0].Cards[1].Substring(0, playerHand[0].Cards[1].Length - 1)));
@@ -168,8 +173,9 @@ namespace Blackjack
 
         public void Surrender()
         {
-            playerHand[ptrCur].Wager = playerHand[ptrCur].Wager / 2;
             Cash += playerHand[ptrCur].Wager / 2;
+            playerHand[ptrCur].Wager = playerHand[ptrCur].Wager / 2;
+
             Surrendered = true;
         }
 

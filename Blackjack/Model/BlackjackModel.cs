@@ -375,8 +375,9 @@ namespace Blackjack.Application
                 {
                     Player.Surrender();
 
-                    FlavorText.Add(Player.PlayerName + " surrenders the hand .");
-                    FlavorText.Add("Bet is now $" + Player.Bet.ToString());
+                    FlavorText.Add("You surrender the hand. Your bet is now " + Player.Bet.ToString("C"));
+                    View.ModelChanged(true);
+
                     DealerGo();
                 }
                 else
