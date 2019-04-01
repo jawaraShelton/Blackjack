@@ -127,7 +127,21 @@ namespace Blackjack.Application
 
         public void Bet(decimal amount)
         {
-            if(amount > 0)
+            //  >>>>>[  Common chip values, colors, and slang in Las Vegas Casinos
+            //
+            //          Value       Color                           Nickname                        Notes
+            //          -------     ---------------------------     --------------------------      ---------------------------
+            //          $     1     White || Blue   
+            //          $     2     Odd Green Color                 "Limes", also "Mints"           "Mints" @ Caesar's Palace, "Limes" @ The Venetian.
+            //          $     5     Red                             "Nickels", also "Redbirds"
+            //          $    25     Green                           "Quarters"
+            //          $   100     Black                           "Blackbirds"?
+            //          $   500     Purple                          "Barneys"
+            //          $ 1,000     Orange                          "Pumpkins", "Banana"?
+            //          $ 5,000     White w/ Red and Blue Spots     "Flags"                         May be unique to The Bellagio
+            //          $25,000     Apperance Unknown               "Cranberries"                   May be unique to The Bellagio
+            //          -----
+            if (amount > 0)
             {
                 if (amount <= Player.Cash)
                 {
@@ -468,7 +482,6 @@ namespace Blackjack.Application
                                     ResultText.Add("Player's Hand: " + pHand.ToString() + " LOSES.");
                                     Player.LoseWager();
                                 }
-                                    
                             }
                             else
                             {
@@ -484,7 +497,7 @@ namespace Blackjack.Application
 
                         if (pHand.Value() > Dealer.PlayerHand[0].Value())
                         {
-                            Decimal winnings = pHand.IsBlackjack() ? Player.Bet + (Player.Bet * 1.5m) : Player.Bet * 2;
+                            Decimal winnings = pHand.IsBlackjack() ? pHand.Wager + (pHand.Wager * 1.5m) : pHand.Wager * 2;
                             ResultText.Add("Player's Hand: " + pHand.ToString() + " WINS " + winnings.ToString("C") + "!");
                             Player.Win(winnings);
                         }
