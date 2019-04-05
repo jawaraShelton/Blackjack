@@ -45,28 +45,35 @@ namespace Blackjack.Application
                         Environment.Exit(0);
                         break;
                     case "s":
-                        switch (args[0].Substring(0, 2))
+                        if(args[0].Length < 2)
                         {
-                            case "sp":
-                                if (model.GetPlayer().CanSplit)
-                                {
-                                    model.Split();
-                                }
-                                else
-                                {
+                            ReturnError();
+                        }
+                        else
+                        { 
+                            switch (args[0].Substring(0, 2))
+                            {
+                                case "sp":
+                                    if (model.GetPlayer().CanSplit)
+                                    {
+                                        model.Split();
+                                    }
+                                    else
+                                    {
+                                        ReturnError();
+                                        retval = false;
+                                    }
+                                    break;
+                                case "st":
+                                    model.Stand();
+                                    break;
+                                case "su":
+                                    model.Surrender();
+                                    break;
+                                default:
                                     ReturnError();
-                                    retval = false;
-                                }
                                 break;
-                            case "st":
-                                model.Stand();
-                                break;
-                            case "su":
-                                model.Surrender();
-                                break;
-                            default:
-                                ReturnError();
-                                break;
+                            }
                         }
                         break;
                     default:
