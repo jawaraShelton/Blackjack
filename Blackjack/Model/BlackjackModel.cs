@@ -131,7 +131,7 @@ namespace Blackjack.Application
             //
             //          Value       Color                           Nickname                        Notes
             //          -------     ---------------------------     --------------------------      ---------------------------
-            //          $     1     White || Blue   
+            //          $     1     White || Blue
             //          $     2     Odd Green Color                 "Limes", also "Mints"           "Mints" @ Caesar's Palace, "Limes" @ The Venetian.
             //          $     5     Red                             "Nickels", also "Redbirds"
             //          $    25     Green                           "Quarters"
