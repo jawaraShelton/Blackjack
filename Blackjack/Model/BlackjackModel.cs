@@ -311,20 +311,20 @@ namespace Blackjack.Application
                     FlavorText.Add("Player's bet is now $" + Player.Bet.ToString());
 
                     Player.AddToHand(Dealer.Deal());
+                    Boolean LastHand = (Player.PlayerHand[Player.PlayerHand.Count - 1] == Player.CurrentHand());
+
                     if (Player.CurrentHand().Bust)
                     {
                         ResultText.Add("And the Player goes bust...");
-                        View.ModelChanged(true);
+                        ExitGracefully(LastHand);
 
-                        DealerGo();
                     }
                     else
                     {
                         Player.Stand();
                         ResultText.Add("Player stands.");
-                        View.ModelChanged(true);
+                        ExitGracefully(LastHand);
 
-                        DealerGo();
                     }
                 }
                 else
@@ -337,6 +337,19 @@ namespace Blackjack.Application
             {
                 FlavorText.Add("Command not available.");
                 View.ModelChanged();
+            }
+
+            void ExitGracefully(Boolean LastHand)
+            {
+                if (LastHand)
+                {
+                    View.ModelChanged(true);
+                    DealerGo();
+                }
+                else
+                {
+                    View.ModelChanged();
+                }
             }
         }
 

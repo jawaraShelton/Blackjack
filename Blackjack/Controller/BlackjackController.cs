@@ -21,7 +21,7 @@ namespace Blackjack.Application
             String[] args = command.Split(' ');
             if (!args[0].Equals(""))
             {
-                switch (args[0].Substring(0, 1))
+                switch (args[0].Substring(0, 1).ToLower())
                 {
                     case "b":
                         decimal wager;
@@ -51,7 +51,7 @@ namespace Blackjack.Application
                         }
                         else
                         { 
-                            switch (args[0].Substring(0, 2))
+                            switch (args[0].Substring(0, 2).ToLower())
                             {
                                 case "sp":
                                     if (model.GetPlayer().CanSplit)
