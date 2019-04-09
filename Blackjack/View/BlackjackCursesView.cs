@@ -11,7 +11,10 @@ namespace Blackjack.Application
         private BlackjackController Controller;
         private List<String> OutputText;
 
-        private int width = 118;
+        //  >>>>>[  Assuming a window width of 118.
+        //          -----
+
+        private readonly int WIDTH = 118;
 
         //  >>>>>[  The score window currently has a fixed height of 7.
         //          -----
@@ -89,8 +92,8 @@ namespace Blackjack.Application
 
             //  >>>>>[  Draw the "crossbars" bounding the various sections of the screen.
             //          -----
-            OverWrite(SCORE_LEFT, SCORE_TOP, new string('-', width), ConsoleColor.Gray);
-            OverWrite(SCORE_LEFT, SCORE_TOP+6, new string('-', width), ConsoleColor.Gray);
+            OverWrite(SCORE_LEFT, SCORE_TOP, new string('-', WIDTH), ConsoleColor.Gray);
+            OverWrite(SCORE_LEFT, SCORE_TOP+6, new string('-', WIDTH), ConsoleColor.Gray);
 
             //  >>>>>[  Display the Dealer's hand. Nothing really special 
             //          needs to be done...
@@ -135,8 +138,8 @@ namespace Blackjack.Application
         {
             //  >>>>>[  Draw the bounding boxes
             //          -----
-            OverWrite(SCROLL_LEFT, SCROLL_TOP, new string('-', width), ConsoleColor.Gray);
-            OverWrite(SCROLL_LEFT, SCROLL_TOP + 19, new string('-', width), ConsoleColor.Gray);
+            OverWrite(SCROLL_LEFT, SCROLL_TOP, new string('-', WIDTH), ConsoleColor.Gray);
+            OverWrite(SCROLL_LEFT, SCROLL_TOP + 19, new string('-', WIDTH), ConsoleColor.Gray);
 
             //  >>>>>[  Display the flavor and result text
             //          -----
