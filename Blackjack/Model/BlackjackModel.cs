@@ -151,9 +151,14 @@ namespace Blackjack.Application
                     List<string> keyList = new List<string>(Commands.Keys);
                     foreach (string str in keyList)
                         Commands[str] = (!str.Equals("bet"));
-                }
 
-                Deal();
+                    Deal();
+                }
+                else
+                {
+                    ResultText.Add("Bets must be whole dollar values less than or equal to your available cash.");
+                    View.ModelChanged();
+                }
             }
             else
             {
