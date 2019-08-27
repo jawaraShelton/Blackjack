@@ -41,6 +41,7 @@ namespace Blackjack.Application
             this.Commands.Add("hit", false);
             this.Commands.Add("stand", false);
             this.Commands.Add("double down", false);
+            this.Commands.Add("restart", true);
             this.Commands.Add("surrender", false);
             this.Commands.Add("split", false);
             this.Commands.Add("quit", true);
@@ -149,8 +150,9 @@ namespace Blackjack.Application
                     Player.Cash -= amount;
 
                     List<string> keyList = new List<string>(Commands.Keys);
+                    List<string> outList = new List<string>() { "bet", "restart" };
                     foreach (string str in keyList)
-                        Commands[str] = (!str.Equals("bet"));
+                        Commands[str] = (!outList.Contains(str));
 
                     Deal();
                 }
@@ -170,8 +172,9 @@ namespace Blackjack.Application
         private void ResetCommandAvailability()
         {
             List<string> keyList = new List<string>(Commands.Keys);
+            List<string> outList = new List<string>() { "bet", "restart", "quit" };
             foreach (string str in keyList)
-                Commands[str] = (str.Equals("bet") || str.Equals("quit"));
+                Commands[str] = outList.Contains(str);
         }
 
         private void NoSurrender()
@@ -219,6 +222,16 @@ namespace Blackjack.Application
 
                 View.ModelChanged();
             }
+        }
+
+        public void Restart()
+        {
+            FlavorText.Clear();
+            ResultText.Clear();
+
+            Player.Cash = 500;
+
+            View.ModelChanged();
         }
 
         public void Hit()

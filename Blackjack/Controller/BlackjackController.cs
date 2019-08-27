@@ -44,6 +44,9 @@ namespace Blackjack.Application
                     case "q":
                         Environment.Exit(0);
                         break;
+                    case "r":
+                        model.Restart();
+                        break;
                     case "s":
                         if(args[0].Length < 2)
                         {
@@ -80,6 +83,7 @@ namespace Blackjack.Application
                         ReturnError();
                         break;
                 }
+                Console.Write(new string(' ', 80));
             }
             else
             {
@@ -93,7 +97,6 @@ namespace Blackjack.Application
                 //  >>>>>[  Invalid Command. Notify View command failed.
                 //          -----
                 Console.WriteLine("Command invalid. Retry.");
-
                 retval = false;
             }
         }
