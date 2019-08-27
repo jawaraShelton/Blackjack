@@ -130,13 +130,15 @@ namespace Blackjack
         public bool DoubleDown()
         {
             decimal prevBet = playerHand[ptrCur].Wager;
-            if (prevBet <= Cash)
+            Boolean hasCash = (prevBet <= Cash);
+
+            if (hasCash)
             {
                 Cash -= prevBet;
                 playerHand[ptrCur].Wager = prevBet * 2;
             }
 
-            return prevBet <= Cash;
+            return hasCash;
         }
 
         public void LoseWager()
