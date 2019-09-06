@@ -47,6 +47,14 @@ namespace Blackjack.Application
             this.Commands.Add("quit", true);
         }
 
+        public Boolean CommandAvailable(String command)
+        {
+            if (Commands.ContainsKey(command))
+                return Commands[command];
+            else
+                return false;
+        }
+
         public void LinkView(IView View)
         {
             this.View = View;

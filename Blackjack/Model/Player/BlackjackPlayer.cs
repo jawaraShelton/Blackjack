@@ -186,7 +186,7 @@ namespace Blackjack
             Boolean retval = false;
             Decimal Wager = playerHand[ptrCur].Wager;
 
-            if (Wager < Cash && playerHand.Count < 4)
+            if (Wager <= Cash && playerHand.Count < 4)
             {
                 playerHand.Add(new BlackjackHand(playerHand[ptrCur].SplitCard, Wager));
                 playerHand[ptrCur].Cards.Remove(playerHand[ptrCur].SplitCard);

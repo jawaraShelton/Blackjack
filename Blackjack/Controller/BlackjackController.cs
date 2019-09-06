@@ -24,22 +24,33 @@ namespace Blackjack.Application
                 switch (args[0].Substring(0, 1).ToLower())
                 {
                     case "b":
-                        decimal wager;
-                        try
+                        if(model.CommandAvailable("bet"))
                         {
-                            decimal.TryParse(args[1], out wager);
+                            decimal wager;
+                            try
+                            {
+                                decimal.TryParse(args[1], out wager);
+                            }
+                            catch
+                            {
+                                wager = 0;
+                            }
+                            model.Bet(wager);
                         }
-                        catch
-                        {
-                            wager = 0;
-                        }
-                        model.Bet(wager);
+                        else
+                            retval = false;
                         break;
                     case "d":
-                        model.DoubleDown();
+                        if (model.CommandAvailable("double down"))
+                            model.DoubleDown();
+                        else
+                            retval = false;
                         break;
                     case "h":
-                        model.Hit();
+                        if (model.CommandAvailable("hit"))
+                            model.Hit();
+                        else
+                            retval = false;
                         break;
                     case "q":
                         Environment.Exit(0);
@@ -57,21 +68,34 @@ namespace Blackjack.Application
                             switch (args[0].Substring(0, 2).ToLower())
                             {
                                 case "sp":
-                                    if (model.GetPlayer().CanSplit)
+                                    if (model.CommandAvailable("split"))
                                     {
-                                        model.Split();
+                                        if (model.GetPlayer().CanSplit)
+                                        {
+                                            model.Split();
+                                        }
+                                        else
+                                        {
+                                            ReturnError();
+                                            retval = false;
+                                        }
                                     }
                                     else
                                     {
-                                        ReturnError();
                                         retval = false;
                                     }
                                     break;
                                 case "st":
-                                    model.Stand();
+                                    if (model.CommandAvailable("stand"))
+                                        model.Stand();
+                                    else
+                                        retval = false;
                                     break;
                                 case "su":
-                                    model.Surrender();
+                                    if (model.CommandAvailable("surrender"))
+                                        model.Surrender();
+                                    else
+                                        retval = false;
                                     break;
                                 default:
                                     ReturnError();
